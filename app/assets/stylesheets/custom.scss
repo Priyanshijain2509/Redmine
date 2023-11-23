@@ -1,0 +1,183 @@
+h1, h3{
+  color: #555555;
+}
+p{
+  color: #333;
+}
+ul>li>a{
+  color: #116699;
+}
+
+.navbar-custom{
+  background-color: #3E5B76;
+}
+
+#top-menu {
+  background: #3E5B76;
+  color: #fff;
+  height: 1.8em;
+  font-size: 0.8em;
+}
+
+#top-menu .nav-link,
+#top-menu .navbar-nav .nav-link,
+#top-menu .navbar-nav .nav-link.active {
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+
+#header {
+  margin: 0;
+  background-color: #628DB6;
+  color: #f8f8f8;
+}
+
+.header-search{
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: #f8f8f8;
+}
+#header a {
+  color: #f8f8f8;
+}
+
+#main-menu li {
+  float: none;
+  list-style-type: none;
+  margin: 0px 2px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+#main-menu li a{
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0.5rem;
+}
+
+
+#main-menu ul {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  white-space: nowrap;
+
+}
+
+ul {
+  list-style-type: disc;
+}
+
+.current-project{
+  margin: 0.6rem;
+  margin-top: 0;
+  padding: 0;
+  color: #fff;
+  font-size: 24px;
+}
+
+#quick-search #q {
+  width: 130px;
+  height: 24px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin: 0.3rem;
+}
+#quick-search form input {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.search-btn{
+  color: #fff;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+
+#quick-search {
+  margin-left: auto;
+}
+
+.search-form {
+  display: flex;
+}
+
+p.notice{
+  margin: 0.3rem;
+  color:  #005f00;
+  background-color: #DFFFDF;
+  border-color: #9fcf9f;
+}
+
+.splitcontent {
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.splitcontentleft {
+  flex: 1;
+  margin-right: 5px;
+}
+
+.box {
+  padding: 6px;
+  margin-bottom: 10px;
+  background-color: #f6f6f6;
+  color: #505050;
+  line-height: 1.5em;
+  border: 1px solid #e4e4e4;
+  word-wrap: break-word;
+  border-radius: 3px;
+}
+fieldset {
+  border: 1px solid #e4e4e4;
+  margin: 0;
+  min-width: inherit;
+}
+fieldset {
+  display: block;
+  margin-inline-start: 2px;
+  margin-inline-end: 2px;
+  padding-block-start: 0.35em;
+  padding-inline-start: 0.75em;
+  padding-inline-end: 0.75em;
+  padding-block-end: 0.625em;
+  min-inline-size: min-content;
+  border-width: 2px;
+  border-style: groove;
+  border-color: rgb(192, 192, 192);
+  border-image: initial;
+}
+fieldset.legend {
+  color: #333;
+  font-size: 0.8rem;
+}
+html>body .tabular p {
+  overflow: hidden;
+}
+.tabular p {
+  margin: 0;
+  padding: 3px 0 3px 0;
+  padding-left: 180px;
+  min-height: 2em;
+  clear: left;
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.required::after {
+  content: " *";
+  color: #bb0000; /* You can customize the color */
+}

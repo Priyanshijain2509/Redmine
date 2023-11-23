@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'static_pages/home'
   get 'static_pages/help'
 
-  get '/my/account', to: 'users#show'
   get '/signup', to: 'users#new'
-
+  get 'users/:id', to: 'users#show', as: :my_account
+  resources :users
 end

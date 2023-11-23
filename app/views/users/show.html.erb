@@ -1,1 +1,14 @@
-<h3>My Account</h3>
+<h3>My account</h3>
+
+  <p>First Name: <%= @user.first_name %></p>
+
+  <p>Last Name: <%= @user.last_name %></p>
+
+  <p>Email: <%= @user.email %></p>
+
+  <p>Language: <%= @user.language %></p>
+
+  <p>Nick Name: <%= @user.nick_name %></p>
+
+
+<%= link_to 'Back', users_path %>

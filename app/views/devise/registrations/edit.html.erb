@@ -1,43 +1,59 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="splitcontent">
+  <div class="splitcontentleft">
+    <fieldset class="box tabular">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <p class='legend'>Information <% resource_name.to_s.humanize %></p>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= form_for(resource, as: resource_name,  url: user_path(resource), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <p>
+          <%= f.label :first_name, class: 'required' %>
+          <%= f.text_field :first_name, autofocus: true, autocomplete: 'first_name' %>
+        </p>
+
+        <p>
+          <%= f.label :last_name, class: 'required'  %>
+          <%= f.text_field :last_name, autocomplete: 'last_name' %>
+        </p>
+
+        <p>
+          <%= f.label :email, class: 'required'  %>
+          <%= f.email_field :email, autocomplete: "email" %>
+        </p>
+
+        <p>
+          <%= f.label :language %>
+          <%= f.text_field :language, autocomplete: 'language' %>
+        </p>
+
+        <p>
+          <%= f.label :nick_name, class: 'required'  %>
+          <%= f.text_field :nick_name, autocomplete: 'nick_name' %>
+        </p>
+
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+
+        <p class="mobile-hide">
+          <%= f.submit "Save" %>
+        </p>
+      <% end %>
+    </fieldset>
   </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
+  <div class="splitcontentright">
+    <fieldset class="box tabular">
+      <legend>Email Notifications</legend>
+    </fieldset>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+</div>
 
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
 
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
+        <h3>Cancel my account</h3>
 
-<h3>Cancel my account</h3>
+        <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
 
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+        <%= link_to "Back", :back %>

@@ -1,6 +1,6 @@
-<nav class='navbar navbar-expand-lg bg-light'>
+<nav class='navbar navbar-expand-lg navbar-dark navbar-custom' id='top-menu'>
   <div class='container-fluid'>
-    <%= link_to 'Home', static_pages_home_path, class: 'navbar-brand' %>
+    <%= link_to 'Home', static_pages_home_path, class: 'nav-link active' %>
     <button class='navbar-toggler' type='button' data-bs-toggle='collapse'
       data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent'
       aria-expanded='false' aria-label='Toggle navigation'>
@@ -10,36 +10,82 @@
       <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
         <% if user_signed_in? %>
           <li class='nav-item'>
-            <a class='nav-link active' aria-current='page' href='#'>My Page</a>
+            <%= link_to 'My Page', '#', class: 'nav-link active' %>
           </li>
         <% end %>
         <li class='nav-item'>
-          <%= link_to 'Projects', '#', class: 'nav-link' %>
+          <%= link_to 'Projects', '#', class: 'nav-link active' %>
         </li>
         <li class='nav-item'>
-          <a class='nav-link' href='#'>Help</a>
+          <%= link_to 'Help', static_pages_help_path, class: 'nav-link active' %>
         </li>
       </ul>
-      <ul class='navbar-nav'>
+      <ul class='navbar-nav ms-auto'>
         <% if user_signed_in? %>
           <li class='nav-item'>
-            <%= link_to 'My Account', my_account_path, class: 'nav-link' %>
-          </li>
-        <li class='nav-item'>
-          <%= link_to 'Sign Out', destroy_user_session_path,
-          class: 'nav-link', data: { turbo_method: 'delete',
-          turbo_confirm: 'Are you sure?' }%></a>
-        </li>
-        <% elsif %>
-          <li class='nav-item'>
-            <%= link_to 'Sign in', new_user_session_path, class: 'nav-link' %>
+            <%= link_to 'My Account', edit_user_registration_path, class: 'nav-link active' %>
           </li>
           <li class='nav-item'>
-            <%= link_to 'Register', new_user_registration_path, class: 'nav-link' %>
+            <%= link_to 'Sign Out', destroy_user_session_path,
+              class: 'nav-link active', data: { turbo_method: 'delete',
+              turbo_confirm: 'Are you sure?' } %>
+          </li>
+        <% else %>
+          <li class='nav-item'>
+            <%= link_to 'Sign in', new_user_session_path, class: 'nav-link active' %>
+          </li>
+          <li class='nav-item'>
+            <%= link_to 'Register', new_user_registration_path, class: 'nav-link active' %>
           </li>
         <% end %>
-
       </ul>
+    </div>
+  </div>
+</nav>
+
+<nav id='header' >
+  <span class='hearder-search d-flex'>
+    <h1 class='current-project'>Redmine</h1>
+    <div id='quick-search' class='d-flex'>
+      <form class='d-flex'>
+        <p class='search-btn' type='submit'>Search: </p>
+        <input class='form-control me-2' id='q' type='search' aria-label='Search'>
+        <input class='form-control me-1' id='q' type='search' aria-label='Search'>
+      </form>
+    </div>
+    </span>
+  <br />
+  <div id='main-menu' class='tabs'>
+    <ul>
+      <li>
+        <a class='overview' href='/projects/redmine'>Overview</a>
+      </li>
+      <li>
+        <a class='download' href='/projects/redmine/wiki/Download'>Download</a>
+      </li>
+      <li>
+        <a class='activity' href='/projects/redmine/activity'>Activity</a>
+      </li>
+      <li>
+        <a class='roadmap' href='/projects/redmine/roadmap'>Roadmap</a>
+      </li>
+      <li>
+        <a class='issues' href='/projects/redmine/issues'>Issues</a>
+      </li>
+      <li>
+        <a class='news' href='/projects/redmine/news'>News</a>
+      </li>
+      <li>
+        <a class='wiki selected' href='/projects/redmine/wiki'>Wiki</a>
+      </li>
+      <li>
+        <a class='boards' href='/projects/redmine/boards'>Forums</a>
+      </li>
+      <li>
+        <a class='repository' href='/projects/redmine/repository'>Repository</a>
+      </li>
+    </ul>
+    <div class='tabs-buttons' style='display: none;'>
     </div>
   </div>
 </nav>
