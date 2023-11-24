@@ -1,0 +1,37 @@
+<%= form_with(model: current_user.projects.new, url: user_projects_path(
+  user_id: current_user.id), local: true) do |form| %>
+
+  <div class='form-group'>
+    <%= form.label :project_name %>
+    <%= form.text_field :project_name, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :project_description %>
+    <%= form.text_area :project_description, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :indentifier %>
+    <%= form.text_field :indentifier, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :status %>
+    <%= form.select :status, options_for_select(['Public', 'Private']),
+    prompt: 'Select Project status', class: 'form-control' %>
+  </div>
+  <br />
+
+  <div>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </div>
+
+  <div class='actions'>
+    <%= form.submit 'Create Project', class: 'btn btn-success' %>
+  </div>
+
+<% end %>

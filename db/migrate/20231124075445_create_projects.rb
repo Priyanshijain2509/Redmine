@@ -5,6 +5,7 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       t.string :project_description
       t.string :indentifier
       t.string :status
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

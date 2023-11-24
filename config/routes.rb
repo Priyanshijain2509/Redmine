@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'static_pages#index'
 
   devise_for :users
@@ -7,5 +8,7 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
   get 'users/:id', to: 'users#show', as: :my_account
-  resources :users
+  resources :users do
+    resources :projects
+  end
 end

@@ -1,0 +1,27 @@
+<div class='project-index'>
+  <div class="projects-header">
+    <h2>Projects</h2>
+    <%= link_to new_user_project_path(user_id: current_user.id), class: 'new-project' do %>
+      <i class="bi bi-plus-circle-fill"></i>
+      New Project
+    <% end %>
+  </div>
+
+  <% if current_user.projects.any? %>
+    <ul class='project-box'>
+    <% current_user.projects.each do |project| %>
+      <li class="project-item">
+        <div class="project-box-container">
+          <strong><%= project.project_name %></strong>
+          <p><%= project.project_description %></p>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <% else %>
+    <p>No projects yet.</p>
+  <% end %>
+</div>
+<div class='sidebar'>
+
+</div>
