@@ -1,0 +1,26 @@
+<h3><%= @project.project_name %></h3>
+<% if @project.wikis.exists? %>
+  <p><%= @wiki.wiki_text.body.to_s %></p>
+  <%= link_to 'Edit', edit_user_project_wiki_path(id: @wiki.id),
+  class: 'btn btn-primary' %>
+<% else %>
+  <%= form_with(model: @project.wikis.new, url: user_project_wikis_path(
+  user_id: current_user.id, project_id: @project), local: true) do |form| %>
+
+    <div class='form-group'>
+      <%= form.label :wiki_text %>
+      <%= form.rich_text_area :wiki_text, class: 'form-control' %>
+    </div>
+    <br />
+
+    <div>
+      <%= form.hidden_field :project_id, value: @project.id %>
+      <%= form.hidden_field :created_by, value: current_user.id %>
+      <%= form.hidden_field :updated_by, value: current_user.id %>
+    </div>
+
+    <div class='actions'>
+      <%= form.submit 'Save', class: 'btn btn-success' %>
+    </div>
+  <% end %>
+<% end %>

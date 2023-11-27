@@ -12,10 +12,10 @@
           <li class='nav-item'>
             <%= link_to 'My Page', '#', class: 'nav-link active' %>
           </li>
+          <li class='nav-item'>
+            <%= link_to 'Projects', user_projects_path(user_id: current_user) , class: 'nav-link active' %>
+          </li>
         <% end %>
-        <li class='nav-item'>
-          <%= link_to 'Projects', user_projects_path(current_user) , class: 'nav-link active' %>
-        </li>
         <li class='nav-item'>
           <%= link_to 'Help', static_pages_help_path, class: 'nav-link active' %>
         </li>
@@ -74,21 +74,23 @@
       <li>
         <a class='roadmap' href='/projects/redmine/roadmap'>Roadmap</a>
       </li>
-      <li>
-        <a class='issues' href='/projects/redmine/issues'>Issues</a>
-      </li>
-      <li>
-        <a class='news' href='/projects/redmine/news'>News</a>
-      </li>
-      <li>
-        <a class='wiki selected' href='/projects/redmine/wiki'>Wiki</a>
-      </li>
-      <li>
-        <a class='boards' href='/projects/redmine/boards'>Forums</a>
-      </li>
-      <li>
-        <a class='repository' href='/projects/redmine/repository'>Repository</a>
-      </li>
+      <% if user_signed_in? && (project = current_user.projects.find_by(id: @id)) %>
+        <% if project.issue_tracking %>
+          <li><a class='issues' href='/projects/redmine/issues'>Issues</a></li>
+        <% end %>
+        <% if project.news %>
+          <li><a class='news' href='/projects/redmine/news'>News</a></li>
+        <% end %>
+        <% if project.wiki %>
+          <li>
+            <%= link_to 'Wiki', user_project_wikis_path(
+              user_id: current_user.id, project_id: project.id) %>
+          </li>
+        <% end %>
+        <% if project.forums %>
+          <li><a class='boards' href='/projects/redmine/boards'>Forums</a></li>
+        <% end %>
+      <% end %>
     </ul>
     <div class='tabs-buttons' style='display: none;'>
     </div>

@@ -7,6 +7,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @id = params[:id]
   end
 
   def edit
@@ -27,7 +28,9 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:project_name, :project_description,
-      :indentifier, :status, :user_id)
+      :indentifier, :public, :user_id, :issue_tracking, :time_tracking, :news,
+      :documents, :files, :wiki, :forums, :calendar, :gantt
+    )
   end
 
 end

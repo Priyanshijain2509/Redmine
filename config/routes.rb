@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'wikis/index'
+  get 'wikis/new'
+  get 'wikis/edit'
 
   root 'static_pages#index'
 
@@ -9,6 +12,8 @@ Rails.application.routes.draw do
   get '/signup', to: 'users#new'
   get 'users/:id', to: 'users#show', as: :my_account
   resources :users do
-    resources :projects
+    resources :projects do
+      resources :wikis
+    end
   end
 end

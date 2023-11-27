@@ -12,7 +12,11 @@
     <% current_user.projects.each do |project| %>
       <li class="project-item">
         <div class="project-box-container">
-          <strong><%= project.project_name %></strong>
+          <strong>
+            <%= link_to user_project_path(user_id: current_user.id, id: project.id) do %>
+              <%= project.project_name %>
+            <% end %>
+          </strong>
           <p><%= project.project_description %></p>
         </div>
       </li>

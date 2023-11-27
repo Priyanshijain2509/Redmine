@@ -235,16 +235,9 @@ h2 {
   color:rgb(90, 180, 90);
 }
 
-button, select, textarea {
+button, input, select, textarea {
   margin: 0;
   font-family: inherit;
   font-size: revert;
   line-height: inherit;
-}
-
-input{
-
-  width: 1000px;
-  height: 30px;
-
 }
