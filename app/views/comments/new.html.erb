@@ -1,0 +1,20 @@
+<%= form_with(model: @news.comments.new, url: user_project_news_comments_path(
+  user_id: current_user.id, project_id: @news.project.id, news_id: @news.id),
+	local: true) do |form| %>
+
+	<div class='form-group'>
+		<%= form.label :'Add a Comment' %>
+		<%= form.text_area :comment_body, class: 'form-control' %>
+	</div>
+	<br />
+
+	<%= form.hidden_field :project_id, value: @project.id %>
+	<%= form.hidden_field :user_id, value: current_user.id %>
+	<%= form.hidden_field :news_id, value: @news.id %>
+	<%= form.hidden_field :comment_added_by, value: current_user.id %>
+
+	<div class='actions'>
+		<%= form.submit 'Save', class: 'btn btn-success' %>
+	</div>
+
+<% end %>

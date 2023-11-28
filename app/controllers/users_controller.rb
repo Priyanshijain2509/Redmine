@@ -17,8 +17,8 @@ class UsersController < ApplicationController
   end
 
   private
-    def article_params
-      params.require(:user).permit(:first_name, :last_name, :email, :language, :nick_name)
-    end
-
+  def article_params
+    params.require(:user).permit(:first_name, :last_name, :email,
+    :language, :nick_name)
+  end
 end

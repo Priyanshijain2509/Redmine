@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_27_095655) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_28_131819) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -47,6 +47,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_095655) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string "comment_body"
+    t.string "comment_added_by"
+    t.integer "project_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "news_id", null: false
+    t.index ["news_id"], name: "index_comments_on_news_id"
+  end
+
+  create_table "news", force: :cascade do |t|
+    t.string "news_title", null: false
+    t.string "news_content"
+    t.string "news_added_by", null: false
+    t.integer "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "projects", force: :cascade do |t|
@@ -101,6 +121,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_27_095655) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "news"
+  add_foreign_key "comments", "projects"
+  add_foreign_key "comments", "users"
+  add_foreign_key "news", "projects"
   add_foreign_key "projects", "users"
   add_foreign_key "wikis", "projects"
   add_foreign_key "wikis", "users", column: "created_by"

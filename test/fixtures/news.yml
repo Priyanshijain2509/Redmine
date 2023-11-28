@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  news_title: MyString
+  news_content: MyString
+
+two:
+  news_title: MyString
+  news_content: MyString

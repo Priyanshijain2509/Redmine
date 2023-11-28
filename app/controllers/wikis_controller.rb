@@ -1,5 +1,5 @@
 class WikisController < ApplicationController
-  before_action :set_project, only: [:index, :edit, :update]
+  before_action :set_project, only: %i[index edit update]
   def index
     @wiki = @project.wikis.first
   end
@@ -14,7 +14,7 @@ class WikisController < ApplicationController
       flash[:notice] = 'Wiki successfully created!'
       redirect_to request.referrer || root_url
     else
-    flash[:alert] = 'Error creating the wiki.'
+      flash[:alert] = 'Error creating the wiki.'
       render :new
     end
   end
@@ -31,6 +31,7 @@ class WikisController < ApplicationController
   end
 
   private
+
   def wiki_params
     params.require(:wiki).permit(:wiki_text, :project_id, :created_by, :updated_by)
   end

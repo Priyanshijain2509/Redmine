@@ -223,6 +223,14 @@ p {
   text-decoration: none;
 }
 
+.news-header{
+  display: flex;
+  align-items: center;
+}
+
+.new-news{
+  margin-left: auto;
+}
 h2 {
   margin-right: 1.5rem;
 }
@@ -240,4 +248,36 @@ button, input, select, textarea {
   font-family: inherit;
   font-size: revert;
   line-height: inherit;
+}
+
+.news-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.news{
+  color:#169;
+  text-decoration: none;
+}
+
+.news:hover{
+  color: #bb0000;
+}
+
+.news-edit{
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.news-added{
+  font-size: 12px;
+}
+
+.trix-content{
+  font-size: 14px;
+}
+
+.comment-added{
+  font-size: 12px;
 }
