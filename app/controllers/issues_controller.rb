@@ -12,13 +12,6 @@ class IssuesController < ApplicationController
   def new
   end
 
-  def edit
-    @issue = Issue.find_by(id: params[:id])
-  end
-
-  def delete
-  end
-
   def create
     @issue = Issue.new(issue_params)
     if @issue.save
@@ -28,6 +21,31 @@ class IssuesController < ApplicationController
       flash[:error] = "Issue can't be posted"
       render 'new'
     end
+  end
+
+  def edit
+    @issue = Issue.find_by(id: params[:id])
+  end
+
+  def update
+    @issue = Issue.find_by(id: params[:id])
+    if @issue.update(issue_params)
+      flash[:notice] = 'Issue updated!'
+      redirect_to user_project_issue_path
+    else
+      flash[:error] = "Error in updating issue."
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @issue = Issue.find(params[:id])
+    file_id = params[:file_id]
+    attachment = @issue.files.find_by(id: file_id)
+    attachment.purge if attachment.present?
+    flash[:notice] = 'File deleted successfully'
+    redirect_to user_project_issue_path(user_id: @issue.user.id,
+      project_id: @issue.project_id, id: @issue.id)
   end
 
   private

@@ -23,7 +23,7 @@ class EditIssuesController < ApplicationController
     @edit_issue = @issue.edit_issues.find_by(id: params[:id])
     if @edit_issue.update(edit_issue_params)
       flash[:notice] = 'Successfully updated!'
-      redirect_to user_project_issue_path
+      redirect_to user_project_issue_path(id: params[:issue_id])
     else
       debugger
       puts 'form else'

@@ -1,7 +1,7 @@
 class WikisController < ApplicationController
-  before_action :set_project, only: %i[index edit update]
+  before_action :set_project, only: %i[index edit update create]
   def index
-    @wiki = @project.wikis.first
+    @wiki = @project.project_wiki
   end
 
   def create
@@ -14,18 +14,19 @@ class WikisController < ApplicationController
       render :new
     end
   end
-  
+
   def edit
-    @wiki = @project.wikis.first
+    @wiki = @project.project_wiki
   end
 
 
   def update
-    @wiki = @project.wikis.first
+    @wiki = @project.project_wiki
     if @wiki.update(wiki_params)
       flash[:notice] = 'wiki updated'
       redirect_to user_project_wikis_path
     else
+      debugger
       flash[:alert] = "Wiki couldn't be updated"
       render 'edit'
     end
@@ -38,6 +39,6 @@ class WikisController < ApplicationController
   end
 
   def set_project
-    @project = Project.find_by(params[:project_id])
+    @project = Project.find_by(id: params[:project_id])
   end
 end

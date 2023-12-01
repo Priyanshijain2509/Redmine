@@ -1,7 +1,8 @@
 <div class='side-button'>
   <h3><%= @issue.tracker %></h3>
-    <%= link_to new_user_project_issue_edit_issue_path(user_id: @issue.user.id,
-    project_id: @issue.project.id, issue_id: @issue.id), class: 'new-button' do %>
+    <%= link_to edit_user_project_issue_path(user_id: @issue.user.id,
+    project_id: @issue.project.id, id: @issue.id), class: 'new-button',
+    id: 'add-issue-edit-link', remote: true do %>
     <i class="bi bi-pencil-square"></i>
     Edit
   <% end %>
@@ -23,7 +24,7 @@
     <% if @issue.files.attached? %>
       <% @issue.files.each do |file| %>
         <% if file.image? %>
-          <%= image_tag(file) %>
+          <%= image_tag(file, height: 100) %>
         <% elsif file.video? %>
           <%= video_tag(url_for(file), controls: '') %>
         <% elsif file.audio? %>
@@ -34,24 +35,34 @@
             <%= file.filename %>
           <% end %>
         <% end %>
+        <br />
       <% end %>
     <% end %>
-
   </div>
 </div>
+
 <% if @issue.edit_issues.exists? %>
   <div class='notes'>
     <h6>Notes</h6>
+    <%= link_to new_user_project_issue_edit_issue_path(user_id: @issue.user.id,
+      project_id: @issue.project.id, issue_id: @issue.id), class: 'new-button',
+      id: 'add-edit-issue-new-link' do %>
+      <i class="bi bi-plus-circle-fill"></i>
+      New
+    <% end %>
+
     <% @issue.edit_issues.each do |edit_issues| %>
       <p>Updated by <%= edit_issues.updated_by %>
       <%= time_ago_in_words(edit_issues.updated_at) %> ago.
       </p>
+
       <%= link_to edit_user_project_issue_edit_issue_path(user_id: @issue.user.id,
         project_id: @issue.project.id, issue_id: @issue.id, id: edit_issues.id),
-        class: 'new-button' do %>
+        class: 'new-button', id: 'add-edit-issue-edit-link', data: { id: edit_issues.id }, remote: true do %>
         <i class="bi bi-pencil-square"></i>
         Edit
       <% end %>
+
       <%= link_to user_project_issue_edit_issue_path(user_id: @issue.user.id,
         project_id: @issue.project.id, issue_id: @issue.id, id: edit_issues.id),
         data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
@@ -64,3 +75,171 @@
     <% end %>
   </div>
 <% end %>
+
+
+
+<%= form_with(model: @issue, url: user_project_issue_path(
+  user_id: current_user.id, project_id: @project.id, id: @issue.id),
+  local: true, id: 'issue-edit-form', style: 'display: none;') do |form| %>
+
+  <div class='form-group'>
+    <%= form.label :tracker %>
+    <%= form.select :tracker, options_for_select(['Defect', 'Feature', 'Patch']),
+    class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :subject %>
+    <%= form.text_field :subject, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :issue_description %>
+    <%= form.rich_text_area :issue_description, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :issue_status %>
+    <%= form.select :issue_status, options_for_select(['New', 'Resolved']),
+    class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :category %>
+    <%= form.select :category, options_for_select(['Accounts/authentication',
+    'Administration', 'Attachments', 'Calendar', 'Database', 'Documentation',
+    'Email notification', 'Email receiving', 'Files', 'Gantt', 'Issues', 'LDAP',
+    'My Page', 'News', 'PDF export', 'Project', 'REST API', 'SCM support',
+    'Search Engine', 'Themes', 'UI', 'Wiki']), prompt: ' ',
+      class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :estimated_time %>
+    <%= form.number_field :estimated_time, class: 'form-control' %>
+  </div>
+  <br />
+
+  <div class='form-group'>
+    <%= form.label :assignee %>
+    <%= form.text_field :assignee, class: 'form-control' %>
+  </div>
+  <br />
+
+
+  <div class='form-group'>
+    <%= form.label :files %>
+    <% if @issue.files.attached? %>
+      <% @issue.files.each do |file| %>
+        <%= link_to file.filename, url_for(file) %>
+        <%= form.hidden_field :files, multiple: true, value: file.signed_id %>
+        <%= image_tag(file, height: 100) %>
+        <%= link_to user_project_issue_path(user_id: @issue.user.id,
+          project_id: @issue.project_id, id: @issue.id, file_id: file.id), data: {
+          turbo_method: "delete", turbo_confirm: "Are you sure?" },
+          class: 'new-button' do %>
+            <i class="bi bi-trash3"></i>
+        <% end %>
+        <br>
+      <% end %>
+    <% end %>
+    <%= form.file_field :files, multiple: true, class: 'form-control' %>
+  </div>
+  <br />
+
+  <%= form.hidden_field :project_id, value: @project.id %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.submit 'Update Issue', class: 'btn btn-primary' %>
+<% end %>
+
+
+<%= form_with(model: @issue.edit_issues.new, url: user_project_issue_edit_issues_path(
+  user_id: current_user.id, project_id: @issue.project.id, issue_id: @issue.id),
+    local: true, id: 'edit-issue-new-form', style: 'display: none;' ) do |form| %>
+  <div class='form-group'>
+    <%= form.label :notes %>
+    <%= form.rich_text_area :notes, class: 'form-control' %>
+  </div>
+
+  <%= form.hidden_field :updated_by, value: current_user.first_name %>
+  <%= form.hidden_field :project_id, value: @issue.project.id %>
+  <%= form.hidden_field :issue_id, value: @issue.id %>
+
+  <%= form.submit 'Save' %>
+<% end %>
+
+
+<%= form_with(model: @edit_issue, url: user_project_issue_edit_issue_path(
+  user_id: current_user.id, project_id: @issue.project.id, issue_id: @issue.id), method: :patch,
+  local: true, id: 'edit-issue-edit-form', style: 'display: none;' ) do |form| %>
+  <div class='form-group'>
+    <%= form.label :notes %>
+    <%= form.rich_text_area :notes, class: 'form-control', value: @edit_issue&.notes&.body&.to_s %>
+  </div>
+
+  <%= form.hidden_field :updated_by, value: current_user.first_name %>
+  <%= form.hidden_field :project_id, value: @issue.project.id %>
+  <%= form.hidden_field :issue_id, value: @issue.id %>
+<%= form.hidden_field :edit_issue_id, id: 'edit-issue-edit-id-field', value: @edit_issue.id %>
+
+
+  <%= form.submit 'Save' %>
+<% end %>
+
+
+<script>
+  $(document).ready(function() {
+    $('#issue-edit-form').hide();
+    $('#edit-issue-edit-form').hide();
+    $('#edit-issue-new-form').hide();
+
+    $(document).on('click', '#add-issue-edit-link', function(event) {
+    event.preventDefault();
+    $('#issue-edit-form').toggle();
+
+    $('html, body').animate({
+      scrollTop: $('#issue-edit-form').offset().top
+    }, 100);
+  });
+
+   $(document).on('click', '#add-edit-issue-edit-link', function(event) {
+  event.preventDefault();
+  var editIssueId = $(this).data('id');
+  console.log(editIssueId);
+
+  // Set the value of the hidden field in the form
+  $('#edit-issue-edit-id-field').val(editIssueId);
+
+  $('#edit-issue-edit-form').toggle();
+  $('html, body').animate({
+    scrollTop: $('#edit-issue-edit-form').offset().top
+  }, 100);
+});
+
+
+    $(document).on('click', '#add-edit-issue-new-link', function(event) {
+      event.preventDefault();
+      $('#edit-issue-new-form').toggle();
+      $('html, body').animate({
+      scrollTop: $('#edit-issue-new-form').offset().top
+    }, 100);
+    });
+  });
+</script>

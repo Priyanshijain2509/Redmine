@@ -5,5 +5,5 @@ class User < ApplicationRecord
           :recoverable, :rememberable, :validatable, :confirmable
 
   has_many :projects, dependent: :destroy
-
+  has_many :wikis, foreign_key: 'created_by', class_name: 'Wiki'
 end

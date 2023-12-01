@@ -4,9 +4,11 @@
 <%= time_ago_in_words(@news.created_at) %> ago
 </p>
 <p><%= @news.news_content %></p>
+
 <strong>Comment</strong>
 <%= link_to 'Add a Comment', new_user_project_news_comment_path(
-  user_id: current_user.id, project_id: @news.project.id, news_id: @news.id) %>
+  user_id: current_user.id, project_id: @news.project.id, news_id: @news.id),
+  remote: true, class: 'add-comment-link', id: 'add-comment-link' %>
 	<br />
 	<br />
 
@@ -20,23 +22,31 @@
 		<hr />
 	<% end %>
 <% end %>
+
 <%= form_with(model: @news.comments.new, url: user_project_news_comments_path(
   user_id: current_user.id, project_id: @news.project.id, news_id: @news.id),
-	local: true) do |form| %>
+  local: true, id: 'comment-form', style: 'display: none;') do |form| %>
 
-	<div class='form-group'>
-		<%= form.label :'Add a Comment' %>
-		<%= form.text_area :comment_body, class: 'form-control' %>
-	</div>
-	<br />
+  <div class='form-group'>
+    <%= form.label :'Add a Comment' %>
+    <%= form.text_area :comment_body, class: 'form-control' %>
+  </div>
+  <br />
 
-	<%= form.hidden_field :project_id, value: @project.id %>
-	<%= form.hidden_field :user_id, value: current_user.id %>
-	<%= form.hidden_field :news_id, value: @news.id %>
-	<%= form.hidden_field :comment_added_by, value: current_user.first_name %>
+  <%= form.hidden_field :project_id, value: @project.id %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :news_id, value: @news.id %>
+  <%= form.hidden_field :comment_added_by, value: current_user.first_name %>
 
-	<div class='actions'>
-		<%= form.submit 'Save', class: 'btn btn-success' %>
-	</div>
+  <div class='actions'>
+    <%= form.submit 'Save', class: 'btn btn-success' %>
+  </div>
 
 <% end %>
+
+<script>
+  $(document).on('click', '#add-comment-link', function(event) {
+    event.preventDefault();
+    $('#comment-form').toggle();
+  });
+</script>

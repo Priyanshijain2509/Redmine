@@ -1,11 +1,13 @@
 <h3><%= @project.project_name %></h3>
-<% if @project.wikis.exists? %>
-  <p><%= @wiki.wiki_text.body.to_s %></p>
-  <%= link_to 'Edit', edit_user_project_wiki_path(id: @wiki.id),
-  class: 'btn btn-primary' %>
+<% if @project.project_wiki %>
+  <% if @project.id === @project.project_wiki.project_id %>
+    <p><%= @wiki.wiki_text.body.to_s %></p>
+    <%= link_to 'Edit', edit_user_project_wiki_path(id: @wiki.id),
+    class: 'btn btn-primary' %>
+  <% end %>
 <% else %>
-  <%= form_with(model: @project.wikis.new, url: user_project_wikis_path(
-  user_id: current_user.id, project_id: @project), local: true) do |form| %>
+  <%= form_with(model: Wiki.new , url: user_project_wikis_path(
+  user_id: current_user.id, project_id: @project.id), local: true) do |form| %>
 
     <div class='form-group'>
       <%= form.label :wiki_text %>
