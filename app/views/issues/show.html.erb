@@ -1,0 +1,66 @@
+<div class='side-button'>
+  <h3><%= @issue.tracker %></h3>
+    <%= link_to new_user_project_issue_edit_issue_path(user_id: @issue.user.id,
+    project_id: @issue.project.id, issue_id: @issue.id), class: 'new-button' do %>
+    <i class="bi bi-pencil-square"></i>
+    Edit
+  <% end %>
+</div>
+<div class='issue-show'>
+  <h5><%= @issue.subject %></h5>
+  <p class='added-by'>Added by <%= @issue.user.first_name %>
+  <%= time_ago_in_words(@issue.created_at) %> ago. Updated
+  <%= time_ago_in_words(@issue.updated_at) %> ago
+  </p>
+  <div class='strong-text'>
+    <p><strong>Status:</strong> <%= @issue.issue_status %></p>
+    <p><strong>Start Date:</strong> <%= @issue.start_date %></p>
+    <p><strong>End Date:</strong> <%= @issue.end_date %></p>
+    <p><strong>Category:</strong> <%= @issue.category %></p>
+    <p><strong>Estimated Time:</strong> <%= @issue.estimated_time %></p>
+    <hr />
+    <p><strong>Description</strong> <%= @issue.issue_description %></p>
+    <% if @issue.files.attached? %>
+      <% @issue.files.each do |file| %>
+        <% if file.image? %>
+          <%= image_tag(file) %>
+        <% elsif file.video? %>
+          <%= video_tag(url_for(file), controls: '') %>
+        <% elsif file.audio? %>
+          <%= audio_tag(url_for(file), controls: '') %>
+        <% else %>
+          <%= link_to url_for(file) do %>
+            <i class="bi bi-file-earmark-arrow-down"></i>
+            <%= file.filename %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>
+<% if @issue.edit_issues.exists? %>
+  <div class='notes'>
+    <h6>Notes</h6>
+    <% @issue.edit_issues.each do |edit_issues| %>
+      <p>Updated by <%= edit_issues.updated_by %>
+      <%= time_ago_in_words(edit_issues.updated_at) %> ago.
+      </p>
+      <%= link_to edit_user_project_issue_edit_issue_path(user_id: @issue.user.id,
+        project_id: @issue.project.id, issue_id: @issue.id, id: edit_issues.id),
+        class: 'new-button' do %>
+        <i class="bi bi-pencil-square"></i>
+        Edit
+      <% end %>
+      <%= link_to user_project_issue_edit_issue_path(user_id: @issue.user.id,
+        project_id: @issue.project.id, issue_id: @issue.id, id: edit_issues.id),
+        data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
+        class: 'new-button' do %>
+        <i class="bi bi-trash3"></i>
+        Delete
+      <% end %>
+      <p><%= edit_issues.notes %></p>
+      <hr />
+    <% end %>
+  </div>
+<% end %>

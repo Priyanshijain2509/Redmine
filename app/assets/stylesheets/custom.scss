@@ -5,7 +5,9 @@ h1, h2, h3{
 h2{
   font-size: 1.3rem;
 }
-
+h3{
+  font-size: 16px;
+}
 p{
   color: #333;
 }
@@ -174,7 +176,7 @@ p {
 }
 
 .required::after {
-  content: " *";
+  content: ' *';
   color: #bb0000;
 }
 
@@ -213,24 +215,16 @@ p {
   border-left: 1px solid #ddd;
 }
 
-.projects-header {
+.side-button {
   display: flex;
   align-items: center;
 }
 
-.new-project {
+.new-button {
   margin-left: auto;
   text-decoration: none;
 }
 
-.news-header{
-  display: flex;
-  align-items: center;
-}
-
-.new-news{
-  margin-left: auto;
-}
 h2 {
   margin-right: 1.5rem;
 }
@@ -270,7 +264,7 @@ button, input, select, textarea {
   margin-left: auto;
 }
 
-.news-added{
+.added-by{
   font-size: 12px;
 }
 
@@ -278,6 +272,45 @@ button, input, select, textarea {
   font-size: 14px;
 }
 
-.comment-added{
-  font-size: 12px;
+.issue-show{
+  background: #ffffdd;
+  padding: 0.3rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.1rem;
+}
+
+.strong-text{
+  font-size: 14px;
+}
+
+.notes{
+  border: 1px solid #d7d7d7;
+  border-radius: 0.1rem;
+  padding: 0.3rem;
+}
+
+.login{
+  margin: 5em auto 2em auto;
+  padding: 20px;
+  width: 340px;
+  border: 1px solid #FDBF3B;
+  background-color: #FFEBC1;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.custom-input {
+  width: 300px;
+  height: 30px;
+  padding: 0.3rem;
+}
+
+.field {
+  margin-bottom: 10px;
+}
+
+.lost-password {
+  display: inline-block; /* Set the "Lost password" link to display inline */
+  margin-right: 10px; /* Adjust the margin as needed to create space between elements */
 }

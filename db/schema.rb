@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_28_131819) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_29_130833) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -60,6 +60,33 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_28_131819) do
     t.index ["news_id"], name: "index_comments_on_news_id"
   end
 
+  create_table "edit_issues", force: :cascade do |t|
+    t.string "notes"
+    t.string "updated_by"
+    t.integer "issue_id", null: false
+    t.integer "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issue_id"], name: "index_edit_issues_on_issue_id"
+  end
+
+  create_table "issues", force: :cascade do |t|
+    t.string "tracker", null: false
+    t.string "subject", null: false
+    t.string "issue_description"
+    t.string "issue_status", null: false
+    t.string "category"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer "estimated_time"
+    t.string "assignee"
+    t.integer "project_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee"], name: "index_issues_on_assignee"
+  end
+
   create_table "news", force: :cascade do |t|
     t.string "news_title", null: false
     t.string "news_content"
@@ -79,7 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_28_131819) do
     t.boolean "public", default: false
     t.boolean "issue_tracking", default: false
     t.boolean "time_tracking", default: false
-    t.boolean "news", default: false
+    t.boolean "project_news", default: false
     t.boolean "documents", default: false
     t.boolean "files", default: false
     t.boolean "wiki", default: false
@@ -124,6 +151,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_28_131819) do
   add_foreign_key "comments", "news"
   add_foreign_key "comments", "projects"
   add_foreign_key "comments", "users"
+  add_foreign_key "edit_issues", "issues"
+  add_foreign_key "edit_issues", "projects"
+  add_foreign_key "issues", "projects"
+  add_foreign_key "issues", "users"
   add_foreign_key "news", "projects"
   add_foreign_key "projects", "users"
   add_foreign_key "wikis", "projects"

@@ -4,10 +4,6 @@ class WikisController < ApplicationController
     @wiki = @project.wikis.first
   end
 
-  def edit
-    @wiki = @project.wikis.first
-  end
-
   def create
     @wiki = Wiki.new(wiki_params)
     if @wiki.save
@@ -18,6 +14,11 @@ class WikisController < ApplicationController
       render :new
     end
   end
+  
+  def edit
+    @wiki = @project.wikis.first
+  end
+
 
   def update
     @wiki = @project.wikis.first

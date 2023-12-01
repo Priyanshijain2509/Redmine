@@ -16,7 +16,7 @@
 		<%= comment.comment_added_by %>
 		<%= time_ago_in_words(comment.created_at) %> ago
 		</p>
-		<p class='comment-added'><%= comment.comment_body %>
+		<p class='added-by'><%= comment.comment_body %>
 		<hr />
 	<% end %>
 <% end %>
@@ -33,7 +33,7 @@
 	<%= form.hidden_field :project_id, value: @project.id %>
 	<%= form.hidden_field :user_id, value: current_user.id %>
 	<%= form.hidden_field :news_id, value: @news.id %>
-	<%= form.hidden_field :comment_added_by, value: current_user.id %>
+	<%= form.hidden_field :comment_added_by, value: current_user.first_name %>
 
 	<div class='actions'>
 		<%= form.submit 'Save', class: 'btn btn-success' %>

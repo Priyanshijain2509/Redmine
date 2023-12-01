@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tracker: MyString
+  subject: MyString
+  issue_description: MyString
+  issue_status: MyString
+  category: MyString
+  start_date: 2023-11-29 13:35:24
+  end_date: 2023-11-29 13:35:24
+  estimated_time: 1
+
+two:
+  tracker: MyString
+  subject: MyString
+  issue_description: MyString
+  issue_status: MyString
+  category: MyString
+  start_date: 2023-11-29 13:35:24
+  end_date: 2023-11-29 13:35:24
+  estimated_time: 1

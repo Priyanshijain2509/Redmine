@@ -21,52 +21,50 @@
 
   <div class='form-group'>
     <%= form.check_box(:public) %>
-    <%= form.label(:public, "Public") %>
+    <%= form.label(:public, 'Public') %>
   </div>
   <br />
 
   <div class='modules'>
     <div class='form-group'>
       <%= form.check_box(:issue_tracking) %>
-      <%= form.label(:issue_tracking, "Issue Tracking") %>
+      <%= form.label(:issue_tracking, 'Issue Tracking') %>
     </div>
     <div class='form-group'>
       <%= form.check_box(:time_tracking) %>
-      <%= form.label(:time_tracking, "Time Tracking") %>
+      <%= form.label(:time_tracking, 'Time Tracking') %>
     </div>
     <div class='form-group'>
-      <%= form.check_box(:news) %>
-      <%= form.label(:news, "News") %>
+      <%= form.check_box(:project_news) %>
+      <%= form.label(:project_news, 'News') %>
     </div>
     <div class='form-group'>
       <%= form.check_box(:documents) %>
-      <%= form.label(:documents, "Documents") %>
+      <%= form.label(:documents, 'Documents') %>
     </div>
     <div class='form-group'>
       <%= form.check_box(:files) %>
-      <%= form.label(:files, "Files") %>
+      <%= form.label(:files, 'Files') %>
     </div>
     <div class='form-group'>
       <%= form.check_box(:wiki) %>
-      <%= form.label(:wiki, "Wiki") %>
+      <%= form.label(:wiki, 'Wiki') %>
     </div>
     <div class='form-group'>
       <%= form.check_box(:forums) %>
-      <%= form.label(:forums, "Forums") %>
+      <%= form.label(:forums, 'Forums') %>
     </div>
     <div class='form-group'>
       <%= form.check_box(:calendar) %>
-      <%= form.label(:calendar, "Calendar") %>
+      <%= form.label(:calendar, 'Calendar') %>
     </div>
     <div class='form-group'>
       <%= form.check_box(:gantt) %>
-      <%= form.label(:gantt, "Gantt") %>
+      <%= form.label(:gantt, 'Gantt') %>
     </div>
   </div>
 
-  <div>
     <%= form.hidden_field :user_id, value: current_user.id %>
-  </div>
 
   <div class='actions'>
     <%= form.submit 'Create Project', class: 'btn btn-success' %>

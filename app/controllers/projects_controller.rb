@@ -28,8 +28,8 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:project_name, :project_description,
-      :indentifier, :public, :user_id, :issue_tracking, :time_tracking, :news,
-      :documents, :files, :wiki, :forums, :calendar, :gantt
+      :indentifier, :public, :user_id, :issue_tracking, :time_tracking,
+      :project_news, :documents, :files, :wiki, :forums, :calendar, :gantt
     )
   end
 

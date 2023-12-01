@@ -74,11 +74,16 @@
       <li>
         <a class='roadmap' href='/projects/redmine/roadmap'>Roadmap</a>
       </li>
-      <% if user_signed_in? && (project = current_user.projects.find_by(id: @id)) %>
+      <% if user_signed_in? && (
+        project = current_user.projects.find_by(id: params[:id]) ||
+        current_user.projects.find_by(id: params[:project_id])) %>
         <% if project.issue_tracking %>
-          <li><a class='issues' href='/projects/redmine/issues'>Issues</a></li>
+          <li>
+            <%= link_to 'Issues', user_project_issues_path(
+              user_id: current_user.id, project_id: project.id) %>
+          </li>
         <% end %>
-        <% if project.news %>
+        <% if project.project_news %>
           <li>
             <%= link_to 'News', user_project_news_index_path(
               user_id: current_user.id, project_id: project.id) %>

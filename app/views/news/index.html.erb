@@ -1,6 +1,6 @@
-<div class='news-header'>
+<div class='side-button'>
   <h3>News</h3>
-	<%= link_to new_user_project_news_path, class: 'new-news' do %>
+	<%= link_to new_user_project_news_path, class: 'new-button' do %>
 		<i class='bi bi-plus-circle-fill'></i>
 		Add News
 	<% end %>
@@ -15,7 +15,7 @@
 				  (<%= news.comments.count %> Comments)
 				<% end %>
 			</strong>
-			<p class='news-added'>Added by
+			<p class='added-by'>Added by
 				<%= news.news_added_by %>
 				<%= time_ago_in_words(news.created_at) %> ago
 			</p>

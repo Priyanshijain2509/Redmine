@@ -1,0 +1,2 @@
+module EditIssuesHelper
+end

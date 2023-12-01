@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  get 'comments/index'
-  get 'comments/new'
+  get 'edit_issues/index'
+  get 'edit_issues/create'
+  get 'edit_issues/edit'
+  get 'edit_issues/update'
+  get 'edit_issues/delete'
   root 'static_pages#index'
 
   devise_for :users
@@ -15,6 +18,9 @@ Rails.application.routes.draw do
       resources :wikis
       resources :news do
         resources :comments
+      end
+      resources :issues do
+        resources :edit_issues
       end
     end
   end

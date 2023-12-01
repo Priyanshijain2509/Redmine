@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
-    if @user.update(article_params)
+    if @user.update(user_params)
       flash[:notice] = 'Account was successfully updated.'
       redirect_to request.referrer || root_url
     else
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   end
 
   private
-  def article_params
+  def user_params
     params.require(:user).permit(:first_name, :last_name, :email,
     :language, :nick_name)
   end

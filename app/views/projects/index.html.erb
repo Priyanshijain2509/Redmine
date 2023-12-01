@@ -1,7 +1,8 @@
 <div class='project-index'>
-  <div class='projects-header'>
+  <div class='side-button'>
     <h2>Projects</h2>
-    <%= link_to new_user_project_path(user_id: current_user.id), class: 'new-project' do %>
+    <%= link_to new_user_project_path(user_id: current_user.id),
+      class: 'new-button' do %>
       <i class='bi bi-plus-circle-fill'></i>
       New Project
     <% end %>
@@ -13,7 +14,8 @@
       <li class='project-item'>
         <div class='project-box-container'>
           <strong>
-            <%= link_to user_project_path(user_id: current_user.id, id: project.id) do %>
+            <%= link_to user_project_path(user_id: current_user.id,
+              id: project.id) do %>
               <%= project.project_name %>
             <% end %>
           </strong>
