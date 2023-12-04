@@ -48,6 +48,10 @@ class IssuesController < ApplicationController
       project_id: @issue.project_id, id: @issue.id)
   end
 
+  def my_page
+    @issues = Issue.where(assignee: current_user.id)
+  end
+
   private
 
   def issue_params

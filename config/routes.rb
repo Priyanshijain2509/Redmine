@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  get 'edit_issues/index'
-  get 'edit_issues/create'
-  get 'edit_issues/edit'
-  get 'edit_issues/update'
-  get 'edit_issues/delete'
+  get 'projects/:id/activity', to: 'projects#activity', as: :project_activity
+  get 'projects/:id/roadmap', to: 'projects#roadmap', as: :project_roadmap
+  get 'issues/my_page', to: 'issues#my_page', as: :issues_my_page
+  get 'projects/:id/overview', to: 'projects#overview', as: :overview
   root 'static_pages#index'
 
   devise_for :users
@@ -11,7 +10,6 @@ Rails.application.routes.draw do
   get 'static_pages/help'
 
   get '/signup', to: 'users#new'
-  get 'users/:id', to: 'users#show', as: :my_account
 
   resources :users do
     resources :projects do

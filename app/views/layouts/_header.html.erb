@@ -10,7 +10,7 @@
       <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
         <% if user_signed_in? %>
           <li class='nav-item'>
-            <%= link_to 'My Page', '#', class: 'nav-link active' %>
+            <%= link_to 'My Page', user_path(id: current_user.id) , class: 'nav-link active' %>
           </li>
           <li class='nav-item'>
             <%= link_to 'Projects', user_projects_path(user_id: current_user) , class: 'nav-link active' %>
@@ -63,20 +63,20 @@
   <div id='main-menu' class='tabs'>
     <ul>
       <li>
-        <a class='overview' href='/projects/redmine'>Overview</a>
-      </li>
-      <li>
         <a class='download' href='/projects/redmine/wiki/Download'>Download</a>
-      </li>
-      <li>
-        <a class='activity' href='/projects/redmine/activity'>Activity</a>
-      </li>
-      <li>
-        <a class='roadmap' href='/projects/redmine/roadmap'>Roadmap</a>
       </li>
       <% if user_signed_in? && (
         project = current_user.projects.find_by(id: params[:id]) ||
         current_user.projects.find_by(id: params[:project_id])) %>
+        <li>
+          <%= link_to 'Overview', overview_path %>
+        </li>
+        <li>
+          <%= link_to 'Roadmap', project_roadmap_path(id: project.id ) %>
+        </li>
+        <li>
+          <%= link_to 'Activity', project_activity_path(id: project.id ) %>
+        </li>
         <% if project.issue_tracking %>
           <li>
             <%= link_to 'Issues', user_project_issues_path(

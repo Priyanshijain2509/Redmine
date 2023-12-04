@@ -1,0 +1,34 @@
+<%= 'Issue tracking' %>
+<%= @project.issues.count %>
+<div class='table-responsive'>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th></th>
+        <th>open</th>
+        <th>closed</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Defect</td>
+        <td><%= @project.issues.where(issue_status: 'New', tracker: 'Defect').count %></td>
+        <td><%= @project.issues.where(issue_status: 'Resolved', tracker: 'Defect').count %></td>
+        <td><%= @project.issues.where(tracker: 'Defect').count %></td>
+      </tr>
+      <tr>
+        <td>Feature</td>
+        <td><%= @project.issues.where(issue_status: 'New', tracker: 'Feature').count %></td>
+        <td><%= @project.issues.where(issue_status: 'Resolved', tracker: 'Feature').count %></td>
+        <td><%= @project.issues.where(tracker: 'Feature').count %></td>
+      </tr>
+      <tr>
+        <td>Patch</td>
+        <td><%= @project.issues.where(issue_status: 'New', tracker: 'Patch').count %></td>
+        <td><%= @project.issues.where(issue_status: 'Resolved', tracker: 'Patch').count %></td>
+        <td><%= @project.issues.where(tracker: 'Patch').count %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

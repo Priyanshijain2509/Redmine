@@ -6,13 +6,6 @@ class ProjectsController < ApplicationController
   def new
   end
 
-  def show
-    @id = params[:id]
-  end
-
-  def edit
-  end
-
   def create
     @project = Project.new(project_params)
     if @project.save
@@ -22,6 +15,25 @@ class ProjectsController < ApplicationController
     flash[:alert] = 'Error creating the project.'
       render :new
     end
+  end
+
+  def show
+    @id = params[:id]
+  end
+
+  def edit
+  end
+
+  def activity
+    @project = Project.find_by(id: params[:id])
+  end
+
+  def roadmap
+    @project = Project.find_by(id: params[:id])
+  end
+
+  def overview
+    @project = Project.find_by(id: params[:id])
   end
 
   private

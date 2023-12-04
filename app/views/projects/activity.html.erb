@@ -1,0 +1,37 @@
+<h2>Issue Activity</h2>
+
+<% if @project.issues.exists? %>
+  <% previous_date = nil %>
+  <% @project.issues.each do |issue| %>
+    <% if issue.edit_issues.exists? %>
+      <% grouped_edit_issues = issue.edit_issues.group_by {
+        |edit_issue| edit_issue.created_at.to_date } %>
+      <% grouped_edit_issues.keys.sort.reverse_each do |date| %>
+        <% if previous_date != date %>
+          <h6 class= 'date'>
+            <% if Date.today == date %>
+              <%= 'Today' %>
+            <% else %>
+              <%= date %>
+            <% end %>
+          </h6>
+          <% previous_date = date %>
+        <% end %>
+        <% grouped_edit_issues[date].each do |edit_issue| %>
+          <%= edit_issue.created_at.strftime('%H:%M') %>
+          <%= link_to user_project_issue_path(user_id: edit_issue.issue.user.id,
+            project_id: edit_issue.issue.project.id, id: edit_issue.issue.id) do %>
+            <%= edit_issue.issue.tracker %>
+            #<%= edit_issue.issue.id %>
+            <%= edit_issue.issue.subject %>
+          <% end %>
+          <%= edit_issue.notes %>
+          <%= edit_issue.issue.user.first_name %> <%= edit_issue.issue.user.last_name %>
+          <hr />
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= 'No activity yet.'%>
+    <% end %>
+  <% end %>
+<% end %>

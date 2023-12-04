@@ -1,7 +1,7 @@
 <div class="splitcontent">
   <div class="splitcontentleft">
     <fieldset class="box tabular">
-
+      <h2>My account</h2>
       <p class='legend'>Information <% resource_name.to_s.humanize %></p>
 
       <%= form_for(resource, as: resource_name,  url: user_path(resource), html: { method: :put }) do |f| %>

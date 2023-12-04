@@ -1,12 +1,6 @@
-<div class='side-button'>
-  <h3>Issues</h3>
-  <%= link_to new_user_project_issue_path, class: 'new-button' do %>
-    <i class='bi bi-plus-circle-fill'></i>
-    Add Issues
-  <% end %>
-</div>
-
-<% if @issues.exists? %>
+<h3>My Page</h3>
+<h5>Issue Assigned to me</h5>
+<% if @issues.exists?  %>
   <div class='table-responsive'>
     <table class='table table-striped'>
       <thead>
@@ -21,20 +15,20 @@
       </thead>
       <tbody>
         <% @issues.each do |issue| %>
+          <% if issue.assignee.to_i == current_user.id %>
           <tr>
             <td><%= issue.id %></td>
             <td><%= issue.tracker %></td>
             <td><%= issue.issue_status %></td>
             <td><%= link_to issue.subject, user_project_issue_path(
-              user_id: current_user.id, project_id: issue.project.id,
-              id: issue.id ) %></td>
+                  user_id: current_user.id, project_id: issue.project.id,
+                  id: issue.id ) %></td>
             <td><%= issue.category %></td>
             <td><%= issue.updated_at %></td>
           </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
   </div>
-<% else %>
-  <p>No Issues Yet!</p>
 <% end %>

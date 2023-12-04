@@ -44,11 +44,12 @@ class EditIssuesController < ApplicationController
   private
 
   def set_issue
-    @issue = Issue.find_by(id: params[:issue_id])
+    @issue = Issue.find_by(id: params[:id])
   end
 
   def edit_issue_params
     params.require(:edit_issue).permit(:notes, :updated_by, :issue_id,
     :project_id)
+
   end
 end

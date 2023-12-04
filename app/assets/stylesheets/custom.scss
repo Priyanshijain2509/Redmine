@@ -333,3 +333,31 @@ button, input, select, textarea {
   border: 1px solid #d7d7d7;
   padding: 1rem;
 }
+.date{
+  color: #555;
+  background-color: #EEE;
+  padding: 0.3rem;
+}
+.my_page{
+  border: 1px solid #d7d7d7;
+  font-weight: 500;
+  text-decoration: none;
+}
+.nodata{
+  text-align: center;
+  background-color: #F3EDD1;
+  color: #A6750C;
+  text-decoration: none;
+  border: 1px solid #eadbbc;
+  margin: 0.5rem;
+}
+
+.nodata>a{
+  color: #A6750C;
+  text-decoration: none;
+}
+.my_page>a{
+  text-decoration: none;
+  color: #116699;
+  padding: 0.5rem;
+}

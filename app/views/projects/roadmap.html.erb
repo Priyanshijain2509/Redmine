@@ -1,0 +1,3 @@
+<%= @project.issues.count %>
+<%= @project.issues.where(issue_status: 'New').count %>
+<%= @project.issues.where(issue_status: 'Resolved').count %>
