@@ -218,6 +218,7 @@ p {
 .side-button {
   display: flex;
   align-items: center;
+  line-height: 1;
 }
 
 .new-button {
@@ -225,17 +226,30 @@ p {
   text-decoration: none;
 }
 
+.two-buttons{
+  margin-left: auto;
+}
+
 h2 {
   margin-right: 1.5rem;
 }
 
-.bi{
+.bi-plus-circle-fill{
   color: rgb(119, 196, 119);
 }
 
-.bi:hover{
+.bi-plus-circle-fill:hover{
   color:rgb(90, 180, 90);
 }
+
+.bi-pencil-square{
+  color: rgb(44, 145, 240);
+}
+
+.bi-trash3{
+  color: rgb(253, 87, 87);
+}
+
 
 button, input, select, textarea {
   margin: 0;
@@ -313,4 +327,9 @@ button, input, select, textarea {
 .lost-password {
   display: inline-block; /* Set the "Lost password" link to display inline */
   margin-right: 10px; /* Adjust the margin as needed to create space between elements */
+}
+
+.issue-edit{
+  border: 1px solid #d7d7d7;
+  padding: 1rem;
 }

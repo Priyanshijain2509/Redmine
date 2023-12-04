@@ -79,7 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_29_130833) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer "estimated_time"
-    t.string "assignee"
+    t.integer "assignee"
     t.integer "project_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false

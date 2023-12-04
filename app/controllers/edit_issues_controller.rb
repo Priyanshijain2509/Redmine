@@ -1,5 +1,5 @@
 class EditIssuesController < ApplicationController
-  before_action :set_issue, only: %i[new create edit update]
+  before_action :set_issue, only: %i[create edit update]
 
   def index
   end
@@ -16,17 +16,15 @@ class EditIssuesController < ApplicationController
   end
 
   def edit
-    @edit_issue = @issue.edit_issues.find_by(id: params[:id])
+    @edit_issue = @issue.edit_issues.find_by(id: params[:edit_issue_id])
   end
 
   def update
-    @edit_issue = @issue.edit_issues.find_by(id: params[:id])
+    @edit_issue = @issue.edit_issues.find_by(id: params[:edit_issue_id])
     if @edit_issue.update(edit_issue_params)
       flash[:notice] = 'Successfully updated!'
       redirect_to user_project_issue_path(id: params[:issue_id])
     else
-      debugger
-      puts 'form else'
       flash[:error] = "Can't be updated!"
       render 'edit'
     end

@@ -1,7 +1,9 @@
 class NewsController < ApplicationController
   before_action :set_project, only: %i[index edit update new show]
 
-  def new; end
+  def new
+    @project = Project.find_by(params[:project_id])
+  end
 
   def index
     @news = @project.news

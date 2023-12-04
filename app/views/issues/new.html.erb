@@ -58,7 +58,11 @@
 
   <div class='form-group'>
     <%= form.label :assignee %>
-    <%= form.text_field :assignee, class: 'form-control'%>
+    <%= form.select :assignee, class: 'form-control' do %>
+      <% User.all.each do |user| %>
+        <option value="<%= user.id %>"><%= user.first_name %> <%= user.last_name %></option>
+      <% end %>
+    <% end %>
   </div>
   <br />
 
