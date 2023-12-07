@@ -2,13 +2,17 @@
 
 <% if @project.issues.exists? %>
   <% previous_date = nil %>
+  <% previous_subject = nil %>
+  <% indentation_level = 0 %>
+
   <% @project.issues.each do |issue| %>
     <% if issue.edit_issues.exists? %>
       <% grouped_edit_issues = issue.edit_issues.group_by {
         |edit_issue| edit_issue.created_at.to_date } %>
+
       <% grouped_edit_issues.keys.sort.reverse_each do |date| %>
         <% if previous_date != date %>
-          <h6 class= 'date'>
+          <h6 class = 'date'>
             <% if Date.today == date %>
               <%= 'Today' %>
             <% else %>
@@ -16,22 +20,35 @@
             <% end %>
           </h6>
           <% previous_date = date %>
+          <% previous_subject = nil %>
+          <% indentation_level = 0 %>
         <% end %>
+
         <% grouped_edit_issues[date].each do |edit_issue| %>
-          <%= edit_issue.created_at.strftime('%H:%M') %>
-          <%= link_to user_project_issue_path(user_id: edit_issue.issue.user.id,
-            project_id: edit_issue.issue.project.id, id: edit_issue.issue.id) do %>
-            <%= edit_issue.issue.tracker %>
-            #<%= edit_issue.issue.id %>
-            <%= edit_issue.issue.subject %>
+          <% if previous_subject == edit_issue.issue.subject %>
+            <% indentation_level = 1 %>
+          <% else %>
+            <% indentation_level = 0 %>
           <% end %>
-          <%= edit_issue.notes %>
-          <%= edit_issue.issue.user.first_name %> <%= edit_issue.issue.user.last_name %>
-          <hr />
+
+          <div style="margin-left: <%= indentation_level * 30 %>px;">
+            <%= edit_issue.created_at.strftime('%H:%M') %>
+            <%= link_to user_project_issue_path(user_id: edit_issue.issue.user.id,
+              project_id: edit_issue.issue.project.id, id: edit_issue.issue.id) do %>
+              <%= edit_issue.issue.tracker %>
+              #<%= edit_issue.issue.id %>
+              <%= edit_issue.issue.subject %>
+            <% end %>
+            <%= edit_issue.notes %>
+            <%= edit_issue.issue.user.first_name %> <%= edit_issue.issue.user.last_name %>
+            <hr />
+          </div>
+          
+          <% previous_subject = edit_issue.issue.subject %>
         <% end %>
       <% end %>
     <% else %>
-      <%= 'No activity yet.'%>
+      <%= 'No activity yet.' %>
     <% end %>
   <% end %>
 <% end %>

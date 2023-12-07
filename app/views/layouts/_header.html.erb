@@ -69,7 +69,7 @@
         project = current_user.projects.find_by(id: params[:id]) ||
         current_user.projects.find_by(id: params[:project_id])) %>
         <li>
-          <%= link_to 'Overview', overview_path %>
+          <%= link_to 'Overview', overview_path(id: project.id ) %>
         </li>
         <li>
           <%= link_to 'Roadmap', project_roadmap_path(id: project.id ) %>

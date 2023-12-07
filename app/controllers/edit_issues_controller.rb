@@ -1,14 +1,13 @@
 class EditIssuesController < ApplicationController
   before_action :set_issue, only: %i[create edit update]
 
-  def index
-  end
+  def index; end
 
   def create
     @edit_issue = EditIssue.new(edit_issue_params)
     if @edit_issue.save
       flash[:notice] = 'Successfully updated!'
-      redirect_to user_project_issue_path(id: @issue.id)
+      redirect_to request.referrer
     else
       flash[:error] = "Can't be updated!"
       render 'new'
@@ -50,6 +49,5 @@ class EditIssuesController < ApplicationController
   def edit_issue_params
     params.require(:edit_issue).permit(:notes, :updated_by, :issue_id,
     :project_id)
-
   end
 end

@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @assigned_issues_count = Issue.where(assignee: current_user.id).count
+    @reported_issues_count = Issue.where(user_id: current_user.id).count
   end
 
   def update

@@ -19,7 +19,6 @@ class WikisController < ApplicationController
     @wiki = @project.project_wiki
   end
 
-
   def update
     @wiki = @project.project_wiki
     if @wiki.update(wiki_params)

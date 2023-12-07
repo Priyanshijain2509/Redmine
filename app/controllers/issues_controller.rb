@@ -1,16 +1,15 @@
 class IssuesController < ApplicationController
-  before_action :set_project, only: %i[index edit update new show]
+  before_action :set_project, only: %i[edit update new show]
 
   def index
-    @issues = @project.issues
+    @issues = Project.find(params[:project_id]).issues
   end
 
   def show
     @issue = Issue.find_by(id: params[:id])
   end
 
-  def new
-  end
+  def new; end
 
   def create
     @issue = Issue.new(issue_params)
@@ -33,7 +32,7 @@ class IssuesController < ApplicationController
       flash[:notice] = 'Issue updated!'
       redirect_to user_project_issue_path
     else
-      flash[:error] = "Error in updating issue."
+      flash[:error] = 'Error in updating issue.'
       render 'edit'
     end
   end
@@ -52,6 +51,10 @@ class IssuesController < ApplicationController
     @issues = Issue.where(assignee: current_user.id)
   end
 
+  def reported_issue
+    @issues = Issue.where(user_id: current_user.id)
+  end
+
   private
 
   def issue_params
@@ -61,6 +64,6 @@ class IssuesController < ApplicationController
   end
 
   def set_project
-    @project = Project.find_by(params[:project_id])
+    @project = Project.find_by(id: params[:project_id])
   end
 end

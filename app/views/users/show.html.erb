@@ -1,11 +1,23 @@
 <h2>My page</h2>
 <div class='my_page'>
-  <%= link_to 'Issue assigned to me', issues_my_page_path %> (<%= @assigned_issues_count %>)
-  <div class='nodata'>
-    <% if @assigned_issues_count==0 %>
-      <%= No data to display %>
-    <% else %>
-      <%= link_to 'Issues', issues_my_page_path %>
-    <% end %>
+  <div class='page'>
+    <%= link_to 'Issue assigned to me', issues_my_page_path %>(<%= @assigned_issues_count %>)
+    <div class='nodata'>
+      <% if @assigned_issues_count==0 %>
+        <%= No data to display %>
+      <% else %>
+        <%= link_to 'Issues', issues_my_page_path %>
+      <% end %>
+    </div>
+  </div>
+  <div class='page'>
+    <%= link_to 'Reported issues', issues_reported_issue_path %>(<%= @reported_issues_count %>)
+    <div class = 'nodata'>
+      <% if @reported_issues_count == 0 %>
+        <%= No data to display %>
+      <% else %>
+        <%= link_to 'Reported Issues', issues_reported_issue_path %>
+      <% end %>
+    </div>
   </div>
 </div>
