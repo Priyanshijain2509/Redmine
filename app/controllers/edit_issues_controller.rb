@@ -5,10 +5,12 @@ class EditIssuesController < ApplicationController
 
   def create
     @edit_issue = EditIssue.new(edit_issue_params)
+    puts @edit_issue.inspect 
     if @edit_issue.save
       flash[:notice] = 'Successfully updated!'
       redirect_to request.referrer
     else
+      puts @edit_issue.errors.full_messages # Add this line for debugging
       flash[:error] = "Can't be updated!"
       render 'new'
     end

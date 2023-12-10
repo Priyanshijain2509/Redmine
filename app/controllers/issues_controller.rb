@@ -13,6 +13,9 @@ class IssuesController < ApplicationController
 
   def create
     @issue = Issue.new(issue_params)
+
+    @issue.assignee = params[:issue][:assignee].to_json
+
     if @issue.save
       flash[:notice] = 'Issue Posted!'
       redirect_to user_project_issues_path

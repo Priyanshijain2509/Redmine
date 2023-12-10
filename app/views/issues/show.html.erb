@@ -149,14 +149,9 @@
 
     <div class='form-group'>
       <%= form.label :assignee %>
-      <%= form.select :assignee, class: 'form-control' do %>
-        <% User.all.each do |user| %>
-          <option value="<%= user.id %>" <%= 'selected' if @issue.assignee == user.id %>>
-            <%= user.first_name %> <%= user.last_name %>
-          </option>
-        <% end %>
-      <% end %>
+      <%= form.select :assignee, User.all.map { |user| [user.first_name, user.id] }, { selected: @issue.assignee }, { multiple: true, class: 'form-control' } %>
     </div>
+
     <br />
 
     <div class='form-group'>

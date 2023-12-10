@@ -55,14 +55,16 @@
 <nav id='header' >
   <span class='hearder-search d-flex'>
     <h1 class='current-project'>Redmine</h1>
-    <div id='quick-search' class='d-flex'>
-      <%= form_with(url: search_user_projects_path(user_id: current_user.id),
-        method: :get, class: 'd-flex') do |form| %>
-        <%= form.text_field :q, class: 'form-control me-2', placeholder:
-        'Search projects', aria_label: 'Search' %>
-        <%= form.submit 'Search', class: 'form-control me-1 search-btn' %>
-      <% end %>
-    </div>
+    <% if user_signed_in? %>
+      <div id='quick-search' class='d-flex'>
+        <%= form_with(url: search_user_projects_path(user_id: current_user.id),
+          method: :get, class: 'd-flex') do |form| %>
+          <%= form.text_field :q, class: 'form-control me-2', placeholder:
+          'Search projects', aria_label: 'Search' %>
+          <%= form.submit 'Search', class: 'form-control me-1 search-btn' %>
+        <% end %>
+      </div>
+    <% end %>
   </span>
   <br />
   <div id='main-menu' class='tabs'>
