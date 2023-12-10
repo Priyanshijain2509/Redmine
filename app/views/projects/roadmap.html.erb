@@ -1,3 +1,44 @@
-<%= @project.issues.count %>
-<%= @project.issues.where(issue_status: 'New').count %>
-<%= @project.issues.where(issue_status: 'Resolved').count %>
+<% total_issues = @project.issues.count %>
+<% open_issues = @project.issues.where(issue_status: 'New').count %>
+<% closed_issues = @project.issues.where(issue_status: 'Resolved').count %>
+<% new_issues_percentage = (open_issues.to_f / total_issues) * 100 %>
+<% resolved_issues_percentage = (closed_issues.to_f / total_issues) * 100 %>
+
+<div class='progress' style='height: 25px;'>
+  <div class='progress-bar' role='progressbar' style='width:
+	<%= resolved_issues_percentage %>%; background-color: #BAE0BA'
+	aria-valuenow='<%= resolved_issues_percentage %>' aria-valuemin='0'
+	aria-valuemax='100'>Resolved Issues</div>
+  <div class='progress-bar' role='progressbar' style='width:
+	<%= new_issues_percentage %>%; background-color: #EEEEEE;'
+	aria-valuenow='<%= new_issues_percentage %>' aria-valuemin='0'
+	aria-valuemax='100'>New Issues</div>
+
+	<p class='text'><%= "#{number_with_precision(resolved_issues_percentage,
+	precision: 2)}%" %></p>
+</div>
+
+<%= "#{total_issues} issues (#{closed_issues} closed — #{open_issues} open)" %>
+<br />
+<br />
+<div class='table-responsive'>
+  <table class='table table-striped table-bordered'>
+    <thead>
+      <tr>
+        <th><%= 'Related issues' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @project.issues.each do |issue| %>
+        <tr>
+          <td style="line-height: 1;">
+            <%= link_to user_project_issue_path(user_id: current_user.id, project_id: @project.id, id: issue.id) do %>
+              <%= issue.tracker %> #<%= issue.id %>
+            <% end %>: <%= issue.subject %>
+            <br />
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,11 +1,12 @@
-<div class="splitcontent">
-  <div class="splitcontentleft">
-    <fieldset class="box tabular">
-      <h2>My account</h2>
+<h3>My account</h3>
+
+<div class='splitcontent'>
+  <div class='splitcontentleft'>
+    <fieldset class='box tabular'>
       <p class='legend'>Information <% resource_name.to_s.humanize %></p>
 
       <%= form_for(resource, as: resource_name,  url: user_path(resource), html: { method: :put }) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= render 'devise/shared/error_messages', resource: resource %>
         <p>
           <%= f.label :first_name, class: 'required' %>
           <%= f.text_field :first_name, autofocus: true, autocomplete: 'first_name' %>
@@ -18,7 +19,7 @@
 
         <p>
           <%= f.label :email, class: 'required'  %>
-          <%= f.email_field :email, autocomplete: "email" %>
+          <%= f.email_field :email, autocomplete: 'email' %>
         </p>
 
         <p>
@@ -36,24 +37,27 @@
           <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
         <% end %>
 
-        <p class="mobile-hide">
-          <%= f.submit "Save" %>
+        <p class='mobile-hide'>
+          <%= f.submit 'Save' %>
         </p>
       <% end %>
     </fieldset>
   </div>
 
-  <div class="splitcontentright">
-    <fieldset class="box tabular">
+  <div class='splitcontentright'>
+    <fieldset class='box tabular'>
       <legend>Email Notifications</legend>
     </fieldset>
   </div>
 
 </div>
 
+  <div>
 
-        <h3>Cancel my account</h3>
-
-        <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-        <%= link_to "Back", :back %>
+    <%= link_to registration_path(resource_name), data: {
+      turbo_confirm: 'Are you sure?' }, method: :delete do %>
+      <i class='bi bi-trash3'></i>
+      Delete my account
+    <% end %>
+  </div>
+  <%= link_to 'Back', :back %>

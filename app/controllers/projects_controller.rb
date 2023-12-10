@@ -21,8 +21,7 @@ class ProjectsController < ApplicationController
     @id = params[:id]
   end
 
-  def edit
-  end
+  def edit; end
 
   def activity
     @project = Project.find_by(id: params[:id])
@@ -33,7 +32,25 @@ class ProjectsController < ApplicationController
   end
 
   def overview
-    @project = Project.find_by(id: params[:id])
+    if params[:project_view].present? && params[:project_view] == 'true'
+      @project = Project.find_by(id: params[:id])
+      @issues = @project.issues
+    else
+      @issues = Issue.all
+    end
+  end
+
+  def search
+    @user = User.find(params[:user_id])
+    search_results = @user.projects.where('project_name LIKE ?', "%#{params[:q]}%")
+    first_project = search_results.first
+
+    if first_project
+      redirect_to project_overview_path(first_project.id)
+    else
+      flash[:alert] = 'No matching project found!'
+      redirect_to request.referrer
+    end
   end
 
   private

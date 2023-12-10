@@ -10,7 +10,7 @@
       <% grouped_edit_issues = issue.edit_issues.group_by {
         |edit_issue| edit_issue.created_at.to_date } %>
 
-      <% grouped_edit_issues.keys.sort.reverse_each do |date| %>
+      <% grouped_edit_issues.keys.sort.each do |date| %>
         <% if previous_date != date %>
           <h6 class = 'date'>
             <% if Date.today == date %>
@@ -24,14 +24,15 @@
           <% indentation_level = 0 %>
         <% end %>
 
-        <% grouped_edit_issues[date].each do |edit_issue| %>
+        <% grouped_edit_issues[date].sort_by {
+          |edit_issue| edit_issue.created_at }.reverse_each do |edit_issue| %>
           <% if previous_subject == edit_issue.issue.subject %>
             <% indentation_level = 1 %>
           <% else %>
             <% indentation_level = 0 %>
           <% end %>
 
-          <div style="margin-left: <%= indentation_level * 30 %>px;">
+          <div style='margin-left: <%= indentation_level * 30 %>px;'>
             <%= edit_issue.created_at.strftime('%H:%M') %>
             <%= link_to user_project_issue_path(user_id: edit_issue.issue.user.id,
               project_id: edit_issue.issue.project.id, id: edit_issue.issue.id) do %>
@@ -43,12 +44,14 @@
             <%= edit_issue.issue.user.first_name %> <%= edit_issue.issue.user.last_name %>
             <hr />
           </div>
-          
+
           <% previous_subject = edit_issue.issue.subject %>
         <% end %>
       <% end %>
-    <% else %>
-      <%= 'No activity yet.' %>
-    <% end %>
+
+
+      <% end %>
   <% end %>
+<% else %>
+  <%= 'No activity yet.' %>
 <% end %>

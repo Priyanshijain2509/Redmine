@@ -1,5 +1,7 @@
 <h3>Overview</h3>
-<%= @project.project_name %>
+<% if params[:id].present? %>
+  <%= Project.find(params[:id]).project_name %>
+<% end %>
 <br />
 <div class='table-border'>
   <div class='table-responsive'>
@@ -20,26 +22,28 @@
       <tbody>
         <tr>
           <td>Defect</td>
-          <td><%= @project.issues.where(issue_status: 'New', tracker: 'Defect').count %></td>
-          <td><%= @project.issues.where(issue_status: 'Resolved', tracker: 'Defect').count %></td>
-          <td><%= @project.issues.where(tracker: 'Defect').count %></td>
+          <td><%= @issues.where(issue_status: 'New', tracker: 'Defect').count %></td>
+          <td><%= @issues.where(issue_status: 'Resolved', tracker: 'Defect').count %></td>
+          <td><%= @issues.where(tracker: 'Defect').count %></td>
         </tr>
         <tr>
           <td>Feature</td>
-          <td><%= @project.issues.where(issue_status: 'New', tracker: 'Feature').count %></td>
-          <td><%= @project.issues.where(issue_status: 'Resolved', tracker: 'Feature').count %></td>
-          <td><%= @project.issues.where(tracker: 'Feature').count %></td>
+          <td><%= @issues.where(issue_status: 'New', tracker: 'Feature').count %></td>
+          <td><%= @issues.where(issue_status: 'Resolved', tracker: 'Feature').count %></td>
+          <td><%= @issues.where(tracker: 'Feature').count %></td>
         </tr>
         <tr>
           <td>Patch</td>
-          <td><%= @project.issues.where(issue_status: 'New', tracker: 'Patch').count %></td>
-          <td><%= @project.issues.where(issue_status: 'Resolved', tracker: 'Patch').count %></td>
-          <td><%= @project.issues.where(tracker: 'Patch').count %></td>
+          <td><%= @issues.where(issue_status: 'New', tracker: 'Patch').count %></td>
+          <td><%= @issues.where(issue_status: 'Resolved', tracker: 'Patch').count %></td>
+          <td><%= @issues.where(tracker: 'Patch').count %></td>
         </tr>
       </tbody>
     </table>
 
-    <%= link_to 'View all issues', user_project_issues_path(user_id:
-    current_user.id, project_id: @project.id) %>
+    <% if params[:id].present? %>
+      <%= link_to 'View all issues', user_project_issues_path(user_id:
+      current_user.id, project_id: params[:id]) %>
+    <% end %>
   </div>
 </div>
