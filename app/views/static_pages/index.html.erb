@@ -15,7 +15,7 @@
     Redmine is written using the Ruby on Rails framework. It is cross-platform
     and cross-database and supports 49 languages.
   </p>
-  <% if user_signed_in? %>
+  <% if !user_signed_in? %>
     <span class='welcome-btn'>
       <%= link_to 'Register', new_user_registration_path %>
     </span>

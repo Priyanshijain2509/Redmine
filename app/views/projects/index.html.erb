@@ -14,7 +14,7 @@
       <li class='project-item'>
         <div class='project-box-container'>
           <strong>
-            <%= link_to project_overview_path(project_view: true, id: project.id) do %>
+            <%= link_to project_overview_path(project_view: true, project_id: project.id) do %>
               <%= project.project_name %>
             <% end %>
           </strong>

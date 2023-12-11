@@ -81,13 +81,13 @@
   <div id='main-menu' class='tabs'>
     <ul>
       <li>
-        <a class='download' href='/projects/redmine/wiki/Download'>Download</a>
+        <%= link_to 'Download', static_pages_download_path %>
       </li>
       <li>
         <% if user_signed_in? %>
-          <% if params[:id].present? && current_project %>
+          <% if params[:project_id].present? && current_project %>
             <%= link_to 'Overview', project_overview_path(project_view: true,
-            user_id: current_user.id, id: params[:id] ) %>
+            user_id: current_user.id, project_id: params[:project_id] ) %>
           <% else %>
             <%= link_to 'Overview', overview_path(project_view: false) %>
           <% end %>
@@ -99,11 +99,11 @@
           params[:project_id])) %>
           <li>
             <%= link_to 'Roadmap', project_roadmap_path(user_id: current_user.id,
-            id: project.id ) %>
+            project_id: project.id ) %>
           </li>
           <li>
             <%= link_to 'Activity', project_activity_path(user_id: current_user.id,
-            id: project.id ) %>
+            project_id: project.id ) %>
           </li>
           <% if project.issue_tracking %>
             <li>

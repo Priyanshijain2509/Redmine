@@ -5,7 +5,7 @@ class EditIssuesController < ApplicationController
 
   def create
     @edit_issue = EditIssue.new(edit_issue_params)
-    puts @edit_issue.inspect 
+    puts @edit_issue.inspect
     if @edit_issue.save
       flash[:notice] = 'Successfully updated!'
       redirect_to request.referrer
@@ -35,11 +35,10 @@ class EditIssuesController < ApplicationController
     @edit_issue = EditIssue.find_by(id: params[:id])
     if @edit_issue.destroy
       flash[:notice] = 'Successfully deleted!'
-      redirect_to request.referrer
     else
       flash[:error] = 'Error deleting it.'
-      redirect_to request.referrer
     end
+    redirect_to request.referrer
   end
 
   private
@@ -49,7 +48,6 @@ class EditIssuesController < ApplicationController
   end
 
   def edit_issue_params
-    params.require(:edit_issue).permit(:notes, :updated_by, :issue_id,
-    :project_id)
+    params.require(:edit_issue).permit(:notes, :updated_by, :issue_id, :project_id)
   end
 end

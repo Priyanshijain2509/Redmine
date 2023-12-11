@@ -1,5 +1,4 @@
 class ProjectsController < ApplicationController
-  before_action :set_current_project
 
   def index
     @projects = current_user.projects.all
@@ -14,7 +13,7 @@ class ProjectsController < ApplicationController
       flash[:notice] = 'Project successfully created!'
       redirect_to user_projects_path
     else
-    flash[:alert] = 'Error creating the project.'
+      flash[:alert] = 'Error creating the project.'
       render :new
     end
   end
@@ -26,19 +25,18 @@ class ProjectsController < ApplicationController
   def edit; end
 
   def activity
-    @project = Project.find_by(id: params[:id])
+    @project = Project.find_by(id: params[:project_id])
     session[:current_project_id] = @project.id if @project
   end
 
   def roadmap
-    @project = Project.find_by(id: params[:id])
+    @project = Project.find_by(id: params[:project_id])
     session[:current_project_id] = @project.id if @project
-
   end
 
   def overview
     if params[:project_view].present? && params[:project_view] == 'true'
-      @project = current_user.projects.find_by(id: params[:id])
+      @project = current_user.projects.find_by(id: params[:project_id])
       @current_project = Project.find_by(id: params[:id])
       session[:current_project_id] = @current_project.id if @current_project
       @issues = @project.issues
@@ -68,7 +66,5 @@ class ProjectsController < ApplicationController
       :indentifier, :public, :user_id, :issue_tracking, :time_tracking,
       :project_news, :documents, :files, :wiki, :forums, :calendar, :gantt
     )
-  end
-  def set_current_project
   end
 end
