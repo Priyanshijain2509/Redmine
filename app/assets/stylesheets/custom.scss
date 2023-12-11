@@ -15,7 +15,6 @@ ul>li>a{
   color: #116699;
   text-decoration: none;
 }
-
 .navbar-custom{
   background-color: #3E5B76;
 }
@@ -85,6 +84,9 @@ ul {
   color: #fff;
   font-size: 24px;
 }
+.current-project>a{
+  text-decoration: none;
+}
 
 #quick-search #q {
   width: 130px;
@@ -96,16 +98,18 @@ ul {
   margin: 0.3rem;
 }
 #quick-search form input {
-  margin-top: 0;
+  margin-top: 4px;
+  border-radius: 1px;
   margin-bottom: 0;
 }
 
 .search-btn{
-  color: #fff;
-  margin-left: 8px;
+  color: #000000;
+  margin-left: 2px;
   cursor: pointer;
   height: 1.5rem;
   text-align: center;
+
 }
 
 #quick-search {
@@ -396,4 +400,42 @@ button, input, select, textarea {
 }
 .progress{
   width: 60%;
+}
+
+.welcome-page>h2{
+  text-align: center;
+  color:#125eb4;
+  padding-bottom: 1rem;
+}
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.welcome-page>p{
+  text-align: justify;
+}
+.welcome-btn{
+  margin: 1rem;
+}
+.welcome-btn>a {
+  border: 1px solid black;
+  border-radius: 0.2rem;
+  padding: 0.8rem;
+  color: aliceblue;
+  background-color: #125eb4;
+  text-decoration: none;
+}
+.welcome-btn>a:hover{
+  color: aliceblue;
+  background-color: #3974b8;
+}
+.signup{
+  border: 1px solid #e4e4e4;
+  word-wrap: break-word;
+  border-radius: 3px;
+  background-color: #f6f6f6;
+  padding: 1rem;
 }

@@ -195,9 +195,10 @@
   <%= form.submit 'Save' %>
 <% end %>
 
-<%= form_with(model: @edit_issue, url: user_project_issue_edit_issue_path(
-  user_id: current_user.id, project_id: @issue.project.id, issue_id: @issue.id), method: :patch,
-  local: true, id: 'edit-issue-edit-form', style: 'display: none;' ) do |form| %>
+<%= form_with(model: @edit_issues, url: user_project_issue_edit_issue_path(
+  user_id: current_user.id, project_id: @issue.project.id, issue_id: @issue.id),
+  method: :patch, local: true, id: 'edit-issue-edit-form', style:
+  'display: none;' ) do |form| %>
   <div class='form-group'>
     <%= form.label :notes %>
     <%= form.rich_text_area :notes, class: 'form-control', value: @edit_issue&.notes&.body&.to_s %>
@@ -213,6 +214,7 @@
 
 
 <script>
+  //edit of issue
   $(document).ready(function() {
     $('#issue-edit-form').hide();
     $('#edit-issue-edit-form').hide();
@@ -225,6 +227,7 @@
     }, 100);
   });
 
+  // edit of notes
   $(document).on('click', '#add-edit-issue-edit-link', function(event) {
     event.preventDefault();
     var editIssueId = $(this).data('id');

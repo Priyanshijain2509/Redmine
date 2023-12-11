@@ -1,1 +1,23 @@
-<h2>Welcome on Redmine!</h2>
+<div class='welcome-page'>
+  <h2>Welcome on Redmine!</h2>
+  <p>Redmine is a free and open source, web-based project management and issue
+    tracking tool. It allows users to manage multiple projects and associated
+    subprojects. It features per project wikis and forums, time tracking, and
+    flexible, role-based access control. It includes a calendar and Gantt charts
+    to aid visual representation of projects and their deadlines. Redmine
+    integrates with various version control systems and includes a repository
+    browser and diff viewer.
+  </p>
+  <p>
+    The design of Redmine is significantly influenced by Trac, a software package
+    with some similar features.
+
+    Redmine is written using the Ruby on Rails framework. It is cross-platform
+    and cross-database and supports 49 languages.
+  </p>
+  <% if user_signed_in? %>
+    <span class='welcome-btn'>
+      <%= link_to 'Register', new_user_registration_path %>
+    </span>
+  <% end %>
+</div>

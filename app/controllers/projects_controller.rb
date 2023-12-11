@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  before_action :set_current_project
+
   def index
     @projects = current_user.projects.all
   end
@@ -25,18 +27,24 @@ class ProjectsController < ApplicationController
 
   def activity
     @project = Project.find_by(id: params[:id])
+    session[:current_project_id] = @project.id if @project
   end
 
   def roadmap
     @project = Project.find_by(id: params[:id])
+    session[:current_project_id] = @project.id if @project
+
   end
 
   def overview
     if params[:project_view].present? && params[:project_view] == 'true'
-      @project = Project.find_by(id: params[:id])
+      @project = current_user.projects.find_by(id: params[:id])
+      @current_project = Project.find_by(id: params[:id])
+      session[:current_project_id] = @current_project.id if @current_project
       @issues = @project.issues
     else
-      @issues = Issue.all
+      @issues = Issue.where(user_id: current_user.id)
+      session[:current_project_id] = nil
     end
   end
 
@@ -46,7 +54,7 @@ class ProjectsController < ApplicationController
     first_project = search_results.first
 
     if first_project
-      redirect_to project_overview_path(first_project.id)
+      redirect_to project_overview_path(user_id: current_user.id, id: first_project.id)
     else
       flash[:alert] = 'No matching project found!'
       redirect_to request.referrer
@@ -61,5 +69,6 @@ class ProjectsController < ApplicationController
       :project_news, :documents, :files, :wiki, :forums, :calendar, :gantt
     )
   end
-
+  def set_current_project
+  end
 end

@@ -2,26 +2,32 @@ class IssuesController < ApplicationController
   before_action :set_project, only: %i[edit update new show]
 
   def index
-    @issues = Project.find(params[:project_id]).issues
+    @current_project = Project.find(params[:project_id])
+    @issues = @current_project.issues
+    session[:current_project_id] = @current_project.id if @current_project
   end
 
   def show
     @issue = Issue.find_by(id: params[:id])
+    @current_project = Project.find(params[:project_id])
+    session[:current_project_id] = @current_project.id if @current_project
   end
 
-  def new; end
+  def new
+    @project = Project.find_by(id: params[:project_id])
+    @issue = Issue.new
+  end
 
   def create
+    @project = Project.find_by(id: params[:project_id])
     @issue = Issue.new(issue_params)
-
     @issue.assignee = params[:issue][:assignee].to_json
-
     if @issue.save
       flash[:notice] = 'Issue Posted!'
       redirect_to user_project_issues_path
     else
-      flash[:error] = "Issue can't be posted"
-      render 'new'
+      flash[:alert] = "Issue can't be posted"
+      redirect_to new_user_project_issue_path
     end
   end
 
@@ -36,7 +42,7 @@ class IssuesController < ApplicationController
       redirect_to user_project_issue_path
     else
       flash[:error] = 'Error in updating issue.'
-      render 'edit'
+      redirect_to edit_user_project_issue_path
     end
   end
 

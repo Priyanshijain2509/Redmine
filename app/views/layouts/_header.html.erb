@@ -15,7 +15,7 @@
           </li>
           <li class='nav-item'>
             <%= link_to 'Projects', user_projects_path(user_id: current_user),
-             class: 'nav-link active' %>
+              class: 'nav-link active' %>
           </li>
         <% end %>
         <li class='nav-item'>
@@ -54,14 +54,25 @@
 
 <nav id='header' >
   <span class='hearder-search d-flex'>
-    <h1 class='current-project'>Redmine</h1>
+    <h1 class='current-project'>
+      <% if user_signed_in? && params[:user_id].present? && current_project %>
+        <% project = if params[:project_id].present?
+                    Project.find_by(id: params[:project_id])&.project_name
+                  elsif params[:id].present?
+                    Project.find_by(id: params[:id])&.project_name
+                  end %>
+        <%= project ||  link_to('Redmine', root_path)  %>
+      <% else %>
+        <%= link_to 'Redmine', root_path %>
+      <% end %>
+    </h1>
     <% if user_signed_in? %>
       <div id='quick-search' class='d-flex'>
         <%= form_with(url: search_user_projects_path(user_id: current_user.id),
           method: :get, class: 'd-flex') do |form| %>
           <%= form.text_field :q, class: 'form-control me-2', placeholder:
           'Search projects', aria_label: 'Search' %>
-          <%= form.submit 'Search', class: 'form-control me-1 search-btn' %>
+          <%= form.submit 'Search', class: 'me-1 search-btn' %>
         <% end %>
       </div>
     <% end %>
@@ -73,42 +84,48 @@
         <a class='download' href='/projects/redmine/wiki/Download'>Download</a>
       </li>
       <li>
-        <% if params[:id].present? && user_signed_in? %>
-          <%= link_to 'Overview', project_overview_path(project_view: true,
-          id: params[:id] ) %>
-        <% else %>
-          <%= link_to 'Overview', overview_path(project_view: false) %>
+        <% if user_signed_in? %>
+          <% if params[:id].present? && current_project %>
+            <%= link_to 'Overview', project_overview_path(project_view: true,
+            user_id: current_user.id, id: params[:id] ) %>
+          <% else %>
+            <%= link_to 'Overview', overview_path(project_view: false) %>
+          <% end %>
         <% end %>
       </li>
-      <% if user_signed_in? && (
-        project = current_user.projects.find_by(id: params[:id]) ||
-        current_user.projects.find_by(id: params[:project_id])) %>
-        <li>
-          <%= link_to 'Roadmap', project_roadmap_path(id: project.id ) %>
-        </li>
-        <li>
-          <%= link_to 'Activity', project_activity_path(id: project.id ) %>
-        </li>
-        <% if project.issue_tracking %>
+      <% if params[:user_id].present? %>
+        <% if user_signed_in? && (project = current_user.projects.find_by(
+          id: params[:id]) || current_user.projects.find_by(id:
+          params[:project_id])) %>
           <li>
-            <%= link_to 'Issues', user_project_issues_path(
-              user_id: current_user.id, project_id: project.id) %>
+            <%= link_to 'Roadmap', project_roadmap_path(user_id: current_user.id,
+            id: project.id ) %>
           </li>
-        <% end %>
-        <% if project.project_news %>
           <li>
-            <%= link_to 'News', user_project_news_index_path(
-              user_id: current_user.id, project_id: project.id) %>
+            <%= link_to 'Activity', project_activity_path(user_id: current_user.id,
+            id: project.id ) %>
           </li>
-        <% end %>
-        <% if project.wiki %>
-          <li>
-            <%= link_to 'Wiki', user_project_wikis_path(
-              user_id: current_user.id, project_id: project.id) %>
-          </li>
-        <% end %>
-        <% if project.forums %>
-          <li><a class='boards' href='/projects/redmine/boards'>Forums</a></li>
+          <% if project.issue_tracking %>
+            <li>
+              <%= link_to 'Issues', user_project_issues_path(
+                user_id: current_user.id, project_id: project.id) %>
+            </li>
+          <% end %>
+          <% if project.project_news %>
+            <li>
+              <%= link_to 'News', user_project_news_index_path(
+                user_id: current_user.id, project_id: project.id) %>
+            </li>
+          <% end %>
+          <% if project.wiki %>
+            <li>
+              <%= link_to 'Wiki', user_project_wikis_path(
+                user_id: current_user.id, project_id: project.id) %>
+            </li>
+          <% end %>
+          <% if project.forums %>
+            <li><a class='boards' href='/projects/redmine/boards'>Forums</a></li>
+          <% end %>
         <% end %>
       <% end %>
     </ul>

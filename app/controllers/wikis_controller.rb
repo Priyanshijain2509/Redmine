@@ -2,6 +2,8 @@ class WikisController < ApplicationController
   before_action :set_project, only: %i[index edit update create]
   def index
     @wiki = @project.project_wiki
+    @current_project = Project.find(params[:project_id])
+    session[:current_project_id] = @current_project.id if @current_project
   end
 
   def create
