@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_29_130833) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_12_051301) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -113,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_29_130833) do
     t.boolean "forums", default: false
     t.boolean "calendar", default: false
     t.boolean "gantt", default: false
+    t.string "assigned_to"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 

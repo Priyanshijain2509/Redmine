@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   root 'static_pages#index'
 
-  get 'users/:user_id/projects/:project_id/activity', to: 'projects#activity', as: :project_activity
-  get 'users/:user_id/projects/:project_id/roadmap', to: 'projects#roadmap', as: :project_roadmap
-  get 'users/:user_id/projects/:project_id/overview', to: 'projects#overview', as: :project_overview
+  get 'users/:user_id/projects/:project_id/activity', to: 'projects#activity',
+    as: :project_activity
+  get 'users/:user_id/projects/:project_id/roadmap', to: 'projects#roadmap',
+    as: :project_roadmap
+  get 'users/:user_id/projects/:project_id/overview', to: 'projects#overview',
+    as: :project_overview
   get 'projects/overview', to: 'projects#overview', as: :overview
+  delete 'projects/:id/remove_assigned_user', to:
+    'projects#remove_assigned_user', as: :remove_assigned_user
   get 'issues/my_page', to: 'issues#my_page', as: :issues_my_page
   get 'issues/reported_issue', to: 'issues#reported_issue'
   get 'static_pages/download', to: 'static_pages#download'
@@ -18,6 +23,7 @@ Rails.application.routes.draw do
     resources :projects do
       collection do
         get :search
+        get '/:project_id/search_email', action: :search_email, as: :search_email
       end
       resources :wikis
       resources :news do

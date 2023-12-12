@@ -1,4 +1,6 @@
 class Project < ApplicationRecord
+  serialize :assigned_to, Array
+
   belongs_to :user
   has_one :project_wiki, class_name: 'Wiki', dependent: :destroy
   has_many :news, dependent: :destroy

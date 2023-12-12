@@ -9,16 +9,12 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-
     if @user.update(user_params)
       flash[:notice] = 'Account was successfully updated.'
       redirect_to request.referrer || root_url
     else
       render :edit, status: :unprocessable_entity
     end
-  end
-
-  def overview
   end
 
   private

@@ -12,6 +12,8 @@ class Issue < ApplicationRecord
   validate :date_cannot_be_in_the_past
   validate :end_date_cannot_be_less_than_start_date
 
+  serialize :assignee, Array
+
   private
 
   def date_cannot_be_in_the_past

@@ -1,2 +1,36 @@
-<h1>Projects#edit</h1>
-<p>Find me in app/views/projects/edit.html.erb</p>
+<%= 'Assigned to: '%><br />
+<% @project.assigned_to.each do |assignee| %>
+  <% if assignee.present? && assignee.is_a?(String) %>
+    <%= User.find(assignee).first_name %>
+    <%= link_to remove_assigned_user_path(id: @project.id, user_id: assignee), data: {turbo_method: 'delete' }, remote: true do %>
+      <i class="bi bi-x"></i>
+    <% end %>
+    <br />
+  <% end %>
+<% end %>
+
+
+<div>
+  <%= form_with(url: search_email_user_projects_path(user_id: current_user.id,
+  project_id: @project.id), method: :get, class:
+  'd-flex') do |form| %>
+    <%= form.text_field :search_email, class: 'form-control me-2',
+      placeholder: 'Enter email', aria_label: 'Search' %>
+    <%= form.submit 'Search', class: 'me-1 search-btn' %>
+  <% end %>
+</div>
+
+<% if @search == true %>
+  <%= form_with(model: @project, url: user_project_path(user_id: current_user.id,
+    id: @project.id), local: true, method: :patch) do |form| %>
+
+    <div class='form-group'>
+      <%= form.label :assigned_to %>
+      <%= form.select :assigned_to, @users.map { |user| [user.email, user.id] }.
+      reject { |_, id| id.blank? }, {}, { multiple: true, class: 'form-control',
+        id: 'user_select' } %>
+
+    </div>
+    <%= form.submit 'Add contributor', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
