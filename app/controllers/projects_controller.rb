@@ -50,6 +50,7 @@ class ProjectsController < ApplicationController
     if @project.assigned_to.include?(user_id)
       @project.assigned_to.delete(user_id)
       @project.save
+      update_removed_user_projects(user, @project.id)
     else
       flash[:alert] = "Can't be removed!"
     end
@@ -114,6 +115,13 @@ class ProjectsController < ApplicationController
       assigned_projects = user.assigned_projects || []
       assigned_projects << project_id unless assigned_projects.include?(project_id)
       user.update(assigned_projects: assigned_projects)
+    end
+  end
+
+  def update_removed_user_projects(user, project_id)
+    if user.assigned_projects.include?(project_id)
+      user.assigned_projects.delete(project_id)
+      user.save
     end
   end
 end
