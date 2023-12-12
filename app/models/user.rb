@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :wikis, foreign_key: 'created_by', class_name: 'Wiki'
 
+  serialize :assigned_projects, Array
+
   # validations
   validates :first_name, presence: true, length: { minimum: 3, maximum: 30 }
   validates :last_name, presence: true, length: { minimum: 3, maximum: 20 }

@@ -33,6 +33,7 @@ class ProjectsController < ApplicationController
     updated_assigned_to = existing_assigned_to | project_params[:assigned_to]
 
     if @project.update(assigned_to: updated_assigned_to)
+      update_assigned_projects(project_params[:assigned_to], @project.id)
       flash[:notice] = 'Contributor added!'
       redirect_to user_project_issues_path(project_id: params[:id])
     else
@@ -44,14 +45,13 @@ class ProjectsController < ApplicationController
   def remove_assigned_user
     @project = Project.find(params[:id])
     user_id = params[:user_id]
-    puts "Before removal: #{@project.assigned_to.inspect}"
+    user = User.find(user_id)
 
     if @project.assigned_to.include?(user_id)
       @project.assigned_to.delete(user_id)
       @project.save
-      puts "After removal: #{@project.assigned_to}"
     else
-      puts "User ID #{user_id} not found in assigned_to array."
+      flash[:alert] = "Can't be removed!"
     end
     redirect_to edit_user_project_path(user_id: current_user.id, id: @project.id)
   end
@@ -106,5 +106,14 @@ class ProjectsController < ApplicationController
       :project_news, :documents, :files, :wiki, :forums, :calendar, :gantt,
       assigned_to: []
     )
+  end
+
+  def update_assigned_projects(user_ids, project_id)
+    user_ids.reject(&:empty?).each do |user_id|
+      user = User.find(user_id)
+      assigned_projects = user.assigned_projects || []
+      assigned_projects << project_id unless assigned_projects.include?(project_id)
+      user.update(assigned_projects: assigned_projects)
+    end
   end
 end

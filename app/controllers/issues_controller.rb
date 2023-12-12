@@ -42,7 +42,7 @@ class IssuesController < ApplicationController
       redirect_to user_project_issue_path
     else
       flash[:error] = 'Error in updating issue.'
-      redirect_to edit_user_project_issue_path
+      redirect_to user_project_issue_path
     end
   end
 
@@ -68,8 +68,8 @@ class IssuesController < ApplicationController
 
   def issue_params
     params.require(:issue).permit(:tracker, :subject, :issue_description,
-    :issue_status, :category, :start_date, :end_date, :estimated_time, :assignee,
-    :project_id, :user_id, files: [])
+    :issue_status, :category, :start_date, :end_date, :estimated_time,
+    :project_id, :user_id, :assignee => [], files: [])
   end
 
   def set_project

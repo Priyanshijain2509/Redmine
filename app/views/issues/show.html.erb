@@ -58,7 +58,8 @@
         <div class='two-buttons'>
           <%= link_to edit_user_project_issue_edit_issue_path(user_id: @issue.user.id,
             project_id: @issue.project.id, issue_id: @issue.id, id: edit_issues.id),
-            class: 'new-button', id: 'add-edit-issue-edit-link', data: { id: edit_issues.id }, remote: true do %>
+            class: 'new-button', id: 'add-edit-issue-edit-link', data:
+            { id: edit_issues.id }, remote: true do %>
             <i class="bi bi-pencil-square"></i>
           <% end %>
 
@@ -130,12 +131,6 @@
     <br />
 
     <div class='form-group'>
-      <%= form.label :start_date %>
-      <%= form.date_field :start_date, class: 'form-control' %>
-    </div>
-    <br />
-
-    <div class='form-group'>
       <%= form.label :end_date %>
       <%= form.date_field :end_date, class: 'form-control' %>
     </div>
@@ -149,9 +144,19 @@
 
     <div class='form-group'>
       <%= form.label :assignee %>
-      <%= form.select :assignee, User.all.map { |user| [user.first_name, user.id] }, { selected: @issue.assignee }, { multiple: true, class: 'form-control' } %>
+      <%= form.select :assignee,
+        @project.assigned_to.reject(&:blank?).map { |user|
+          if user.is_a?(User)
+            [user.first_name, user.id]
+          else
+            user_instance = User.find(user)
+            [user_instance.first_name, user_instance.id]
+          end
+        },
+        { selected: @issue.assignee },
+        { multiple: true, class: 'form-control' }
+      %>
     </div>
-
     <br />
 
     <div class='form-group'>
@@ -203,12 +208,10 @@
     <%= form.label :notes %>
     <%= form.rich_text_area :notes, class: 'form-control', value: @edit_issue&.notes&.body&.to_s %>
   </div>
-
   <%= form.hidden_field :updated_by, value: current_user.first_name %>
   <%= form.hidden_field :project_id, value: @issue.project.id %>
   <%= form.hidden_field :issue_id, value: @issue.id %>
   <%= form.hidden_field :edit_issue_id, id: 'edit-issue-edit-id-field' %>
-
   <%= form.submit 'Save' %>
 <% end %>
 

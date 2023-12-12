@@ -58,8 +58,11 @@
 
   <div class='form-group'>
     <%= form.label :assignee %>
-    <%= form.select :assignee, User.all.map { |user| [user.first_name, user.id] },
-    {}, { multiple: true, class: 'form-control' } %>
+    <%= form.select :assignee, @project.assigned_to.reject(&:blank?).map { |user|
+    [user.is_a?(User) ? user.first_name : User.find(user).first_name,
+    user.is_a?(User) ? user.id : user] }, {}, { multiple: true, class:
+    'form-control' } %>
+
   </div>
   <br />
 
