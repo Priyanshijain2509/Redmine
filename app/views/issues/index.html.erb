@@ -1,12 +1,12 @@
 <div class='side-button'>
-  <h3>Issues</h3>
+  <h3 style='margin-right: auto;'>Issues</h3>
   <% if current_user.id == @current_project.user_id %>
-    <%= link_to edit_user_project_path(id: params[:project_id]), class: 'new-button' do %>
+    <%= link_to edit_user_project_path(id: params[:project_id]), class: 'issue-btn' do %>
       <i class='bi bi-plus-circle-fill'></i>
       Add project Contributor
     <% end %>
   <% end %>
-  <%= link_to new_user_project_issue_path, class: 'new-button' do %>
+  <%= link_to new_user_project_issue_path, class: 'issue-btn' do %>
     <i class='bi bi-plus-circle-fill'></i>
     Add Issues
   <% end %>

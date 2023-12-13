@@ -228,7 +228,13 @@ p {
 }
 
 .new-button {
+  justify-content: flex-end;
   margin-left: auto;
+  text-decoration: none;
+}
+.issue-btn{
+  justify-content: flex-end;
+  margin-left: 10px;
   text-decoration: none;
 }
 
@@ -292,11 +298,18 @@ button, input, select, textarea {
 }
 
 .issue-show{
-  background: #ffffdd;
-  padding: 0.3rem;
+  padding: 1.3rem;
   margin-bottom: 0.3rem;
   border: 1px solid #d7d7d7;
   border-radius: 0.1rem;
+}
+#image-display-container {
+  height: 18rem;
+}
+#image-display-container img {
+  margin-left: auto;
+  margin-right: 1rem;
+  display: block;
 }
 
 .strong-text{

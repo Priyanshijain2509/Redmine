@@ -4,7 +4,7 @@
     <%= link_to 'Issue assigned to me', issues_my_page_path %>(<%= @assigned_issues_count %>)
     <div class='nodata'>
       <% if @assigned_issues_count==0 %>
-        <%= No data to display %>
+        <%= 'No data to display' %>
       <% else %>
         <%= link_to 'Issues', issues_my_page_path %>
       <% end %>

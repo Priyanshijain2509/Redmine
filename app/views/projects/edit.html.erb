@@ -2,13 +2,13 @@
 <% @project.assigned_to.each do |assignee| %>
   <% if assignee.present? && assignee.is_a?(String) %>
     <%= User.find(assignee).first_name %>
-    <%= link_to remove_assigned_user_path(id: @project.id, user_id: assignee), data: {turbo_method: 'delete' }, remote: true do %>
-      <i class="bi bi-x"></i>
+    <%= link_to remove_assigned_user_path(id: @project.id, user_id: assignee),
+    data: {turbo_method: 'delete' }, remote: true do %>
+      <i class='bi bi-x'></i>
     <% end %>
     <br />
   <% end %>
 <% end %>
-
 
 <div>
   <%= form_with(url: search_email_user_projects_path(user_id: current_user.id,

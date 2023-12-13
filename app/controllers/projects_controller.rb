@@ -92,7 +92,7 @@ class ProjectsController < ApplicationController
     first_project = search_results.first
 
     if first_project
-      redirect_to project_overview_path(user_id: current_user.id, id: first_project.id)
+      redirect_to project_overview_path(user_id: current_user.id, project_id: first_project.id)
     else
       flash[:alert] = 'No matching project found!'
       redirect_to request.referrer

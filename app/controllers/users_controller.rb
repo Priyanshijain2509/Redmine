@@ -3,8 +3,15 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @assigned_issues_count = Issue.where(assignee: current_user.id).count
-    @reported_issues_count = Issue.where(user_id: current_user.id).count
+    current_user_id = current_user.id.to_s
+    all_issues = Issue.all
+    @user_assigned_issues = []
+    all_issues.each do |issue|
+      user_assigned = issue.assignee.include?(current_user_id)
+      @user_assigned_issues << user_assigned
+    end
+    @assigned_issues_count = @user_assigned_issues.count(true)
+    @reported_issues_count = Issue.where(user_id: @user.id).count
   end
 
   def update

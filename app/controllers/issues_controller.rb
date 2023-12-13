@@ -37,7 +37,7 @@ class IssuesController < ApplicationController
 
   def update
     @issue = Issue.find_by(id: params[:id])
-    if @issue.update(issue_params)
+    if @issue.update(edit_issue_params)
       flash[:notice] = 'Issue updated!'
       redirect_to user_project_issue_path
     else
@@ -69,6 +69,12 @@ class IssuesController < ApplicationController
   def issue_params
     params.require(:issue).permit(:tracker, :subject, :issue_description,
     :issue_status, :category, :start_date, :end_date, :estimated_time,
+    :project_id, :user_id, :assignee => [], files: [])
+  end
+
+  def edit_issue_params
+    params.require(:issue).permit(:tracker, :subject, :issue_description,
+    :issue_status, :category, :end_date, :estimated_time,
     :project_id, :user_id, :assignee => [], files: [])
   end
 

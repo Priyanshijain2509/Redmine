@@ -21,7 +21,7 @@ class EditIssuesController < ApplicationController
   end
 
   def update
-    @edit_issue = @issue.edit_issues.find_by(id: params[:edit_issue_id])
+    @edit_issue = @issue.edit_issues.find_by(id: params[:edit_issue][:edit_issue_id])
     if @edit_issue.update(edit_issue_params)
       flash[:notice] = 'Successfully updated!'
       redirect_to user_project_issue_path(id: params[:issue_id])
@@ -39,6 +39,15 @@ class EditIssuesController < ApplicationController
       flash[:error] = 'Error deleting it.'
     end
     redirect_to request.referrer
+  end
+
+  def fetch_issue_data
+    @edit_issue = EditIssue.find_by(id: params[:edit_issue_id])
+    if @edit_issue
+      render json: { edit_issue: @edit_issue.as_json }
+    else
+      render json: { error: 'EditIssue not found' }, status: :not_found
+    end
   end
 
   private

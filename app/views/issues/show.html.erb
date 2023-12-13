@@ -3,40 +3,100 @@
     <%= link_to edit_user_project_issue_path(user_id: @issue.user.id,
     project_id: @issue.project.id, id: @issue.id), class: 'new-button',
     id: 'add-issue-edit-link', remote: true do %>
-    <i class="bi bi-pencil-square"></i>
+    <i class='bi bi-pencil-square'></i>
   <% end %>
 </div>
+
 <div class='issue-show'>
-  <h5><%= @issue.subject %></h5>
-  <p class='added-by'>Added by <%= @issue.user.first_name %>
-  <%= time_ago_in_words(@issue.created_at) %> ago. Updated
-  <%= time_ago_in_words(@issue.updated_at) %> ago
-  </p>
+  <div class='row'>
+    <div class='col-md-4'>
+      <h5><%= @issue.subject %></h5>
+      <p class='added-by'>
+        Added by <%= @issue.user.first_name %>
+        <%= time_ago_in_words(@issue.created_at) %> ago. Updated
+        <%= time_ago_in_words(@issue.updated_at) %> ago
+      </p>
+      <div class='strong-text'>
+        <p><strong>Status:</strong> <%= @issue.issue_status %></p>
+        <p><strong>Start Date:</strong> <%= @issue.start_date %></p>
+        <p><strong>End Date:</strong> <%= @issue.end_date %></p>
+        <p><strong>Category:</strong> <%= @issue.category %></p>
+        <p><strong>Estimated Time:</strong> <%= @issue.estimated_time %></p>
+        <p><strong>Assignee:</strong> <%= @issue.assignee.reject(&:blank?).map {
+          |id| User.find(id).first_name } %></p>
+      </div>
+    </div>
+
+    <div class='col-md-8'>
+      <div id='image-display-container'></div>
+    </div>
+  </div>
+
   <div class='strong-text'>
-    <p><strong>Status:</strong> <%= @issue.issue_status %></p>
-    <p><strong>Start Date:</strong> <%= @issue.start_date %></p>
-    <p><strong>End Date:</strong> <%= @issue.end_date %></p>
-    <p><strong>Category:</strong> <%= @issue.category %></p>
-    <p><strong>Estimated Time:</strong> <%= @issue.estimated_time %></p>
-    <hr />
-    <p><strong>Description</strong> <%= @issue.issue_description %></p>
+    <p><strong>Description</strong><%= @issue.issue_description %></p>
     <% if @issue.files.attached? %>
-      <% @issue.files.each do |file| %>
-        <% if file.image? %>
-          <%= image_tag(file, height: 100) %>
-        <% elsif file.video? %>
-          <%= video_tag(url_for(file), controls: '') %>
-        <% elsif file.audio? %>
-          <%= audio_tag(url_for(file), controls: '') %>
-        <% else %>
-          <%= link_to url_for(file) do %>
-            <i class="bi bi-file-earmark-arrow-down"></i>
-            <%= file.filename %>
+      <div class='resources-section'>
+        <h5>Resources Available</h5>
+        <% image_files = [] %>
+        <% video_files = [] %>
+        <% audio_files = [] %>
+        <% other_files = [] %>
+
+        <% @issue.files.each do |file| %>
+          <% if file.image? %>
+            <% image_files << file %>
+          <% elsif file.video? %>
+            <% video_files << file %>
+          <% elsif file.audio? %>
+            <% audio_files << file %>
+          <% else %>
+            <% other_files << file %>
           <% end %>
         <% end %>
-        <br />
-      <% end %>
+
+        <div class='resource-type'>
+          <% unless image_files.empty? %>
+            <h6>Images</h6>
+            <% image_files.each do |file| %>
+              <div class="image-container">
+                <%= image_tag(file, class: 'image-preview', height: 100, width: 200) %>
+                <span class="image-name"><%= file.filename %></span>
+              </div>
+              <br />
+              <br />
+            <% end %>
+            <br />
+          <% end %>
+
+          <% unless video_files.empty? %>
+            <h6>Videos</h6>
+            <% video_files.each do |file| %>
+              <%= video_tag(url_for(file), controls: '', class: 'image-preview') %>
+            <% end %>
+          <% end %>
+
+          <% unless audio_files.empty? %>
+            <h6>Audio</h6>
+            <% audio_files.each do |file| %>
+              <%= audio_tag(url_for(file), controls: '', class: 'image-preview') %>
+            <% end %>
+          <% end %>
+
+          <% unless other_files.empty? %>
+            <h6>Other Files</h6>
+            <% other_files.each do |file| %>
+              <%= link_to url_for(file) do %>
+                <i class='bi bi-file-earmark-arrow-down'></i>
+                <%= file.filename %>
+              <% end %>
+              <br />
+            <% end %>
+          <% end %>
+
+        </div>
+      </div>
     <% end %>
+
   </div>
 </div>
 
@@ -46,7 +106,7 @@
     <%= link_to new_user_project_issue_edit_issue_path(user_id: @issue.user.id,
       project_id: @issue.project.id, issue_id: @issue.id), class: 'new-button',
       id: 'add-edit-issue-new-link' do %>
-      <i class="bi bi-plus-circle-fill"></i>
+      <i class='bi bi-plus-circle-fill'></i>
       New
     <% end %>
 
@@ -60,14 +120,14 @@
             project_id: @issue.project.id, issue_id: @issue.id, id: edit_issues.id),
             class: 'new-button', id: 'add-edit-issue-edit-link', data:
             { id: edit_issues.id }, remote: true do %>
-            <i class="bi bi-pencil-square"></i>
+            <i class='bi bi-pencil-square'></i>
           <% end %>
 
           <%= link_to user_project_issue_edit_issue_path(user_id: @issue.user.id,
             project_id: @issue.project.id, issue_id: @issue.id, id: edit_issues.id),
-            data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
+            data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' },
             class: 'new-button' do %>
-            <i class="bi bi-trash3"></i>
+            <i class='bi bi-trash3'></i>
           <% end %>
         </div>
       </div>
@@ -80,7 +140,7 @@
 <%= link_to new_user_project_issue_edit_issue_path(user_id: @issue.user.id,
   project_id: @issue.project.id, issue_id: @issue.id), class: 'new-button',
   id: 'add-edit-issue-new-link' do %>
-  <i class="bi bi-plus-circle-fill"></i>
+  <i class='bi bi-plus-circle-fill'></i>
   New
 <% end %>
 <% end %>
@@ -168,9 +228,9 @@
           <%= image_tag(file, height: 100) %>
           <%= link_to user_project_issue_path(user_id: @issue.user.id,
             project_id: @issue.project_id, id: @issue.id, file_id: file.id), data: {
-            turbo_method: "delete", turbo_confirm: "Are you sure?" },
+            turbo_method: 'delete', turbo_confirm: 'Are you sure?' },
             class: 'new-button' do %>
-              <i class="bi bi-trash3"></i>
+              <i class='bi bi-trash3'></i>
           <% end %>
           <br>
         <% end %>
@@ -196,17 +256,16 @@
   <%= form.hidden_field :updated_by, value: current_user.first_name %>
   <%= form.hidden_field :project_id, value: @issue.project.id %>
   <%= form.hidden_field :issue_id, value: @issue.id %>
-
   <%= form.submit 'Save' %>
 <% end %>
 
-<%= form_with(model: @edit_issues, url: user_project_issue_edit_issue_path(
+<%= form_for(:edit_issue, url: user_project_issue_edit_issue_path(
   user_id: current_user.id, project_id: @issue.project.id, issue_id: @issue.id),
   method: :patch, local: true, id: 'edit-issue-edit-form', style:
   'display: none;' ) do |form| %>
   <div class='form-group'>
     <%= form.label :notes %>
-    <%= form.rich_text_area :notes, class: 'form-control', value: @edit_issue&.notes&.body&.to_s %>
+    <%= form.rich_text_area :notes, class: 'form-control', id: 'edit_issue_notes' %>
   </div>
   <%= form.hidden_field :updated_by, value: current_user.first_name %>
   <%= form.hidden_field :project_id, value: @issue.project.id %>
@@ -229,18 +288,34 @@
     }, 100);
   });
 
-  // edit of notes
+// edit of notes
   $(document).on('click', '#add-edit-issue-edit-link', function(event) {
     event.preventDefault();
     var editIssueId = $(this).data('id');
     console.log(editIssueId);
-    $('#edit-issue-edit-id-field').val(editIssueId);
-    $('#edit-issue-edit-form').toggle();
-    $('html, body').animate({
-      scrollTop: $('#edit-issue-edit-form').offset().top
-    }, 100);
+
+    $.ajax({
+      url: '/fetch_issue_data/' + editIssueId,
+      method: 'GET',
+      data: { editIssueId: editIssueId },
+      success: function(data) {
+        console.log(data);
+        var editIssueData = data.edit_issue;
+        var htmlContent = editIssueData.notes.body;
+        $('#edit_issue_notes').val(htmlContent);
+        $('#edit-issue-edit-id-field').val(editIssueId);
+        $('#edit-issue-edit-form').toggle();
+        $('html, body').animate({
+          scrollTop: $('#edit-issue-edit-form').offset().top
+        }, 100);
+      },
+      error: function(error) {
+        console.error('Error fetching data:', error);
+      }
+    });
   });
 
+// new notes
   $(document).on('click', '#add-edit-issue-new-link', function(event) {
     event.preventDefault();
     $('#edit-issue-new-form').toggle();
@@ -248,5 +323,28 @@
     scrollTop: $('#edit-issue-new-form').offset().top
     }, 100);
     });
+  });
+
+  $(document).ready(function() {
+    var hasImagePreview = $('.image-preview').length > 0;
+    if (hasImagePreview) {
+      // Display the first image by default
+      var defaultImageSource = $('.image-preview:first').attr('src');
+      $('#image-display-container').html(
+        '<img src="' + defaultImageSource +
+        '" class="img-fluid" alt="Image Preview" ' +
+        '" style="max-width: 100%; height: 100%;">');
+      // On click for image
+      $('.image-preview').click(function() {
+        var imageSource = $(this).attr('src');
+        $('#image-display-container').html(
+          '<img src="' + imageSource +
+          '" class="img-fluid" alt="Image Preview" ' +
+          '" style="max-width: 100%; height: 100%;">');
+        $('html, body').animate({
+          scrollTop: $('#image-display-container').offset().top
+        }, 100);
+      });
+    }
   });
 </script>
