@@ -1,9 +1,7 @@
 class NewsController < ApplicationController
   before_action :set_project, only: %i[index edit update new show]
 
-  def new
-    @project = Project.find_by(params[:project_id])
-  end
+  def new; end
 
   def index
     @news = @project.news
@@ -43,7 +41,7 @@ class NewsController < ApplicationController
 
   def news_params
     params.require(:news).permit(:news_title, :news_content,
-                                 :news_added_by, :project_id)
+                                  :news_added_by, :project_id)
   end
 
   def set_project

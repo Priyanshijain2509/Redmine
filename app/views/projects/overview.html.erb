@@ -1,6 +1,6 @@
 <h3>Overview</h3>
-<% if params[:id].present? %>
-  <%= Project.find(params[:id]).project_name %>
+<% if params[:project_id].present? %>
+  <%= Project.find(params[:project_id]).project_name %>
 <% end %>
 <br />
 <div class='table-border'>
@@ -41,9 +41,9 @@
       </tbody>
     </table>
 
-    <% if params[:id].present? %>
+    <% if params[:project_id].present? %>
       <%= link_to 'View all issues', user_project_issues_path(user_id:
-      current_user.id, project_id: params[:id]) %>
+      current_user.id, project_id: params[:project_id]) %>
     <% end %>
   </div>
 </div>

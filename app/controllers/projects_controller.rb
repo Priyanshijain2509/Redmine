@@ -1,11 +1,11 @@
 class ProjectsController < ApplicationController
+  before_action :set_project, only: %i[edit update remove_assigned_user]
 
   def index
     @projects = current_user.projects.all
   end
 
-  def new
-  end
+  def new; end
 
   def create
     @project = Project.new(project_params)
@@ -18,17 +18,11 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def show
-    @id = params[:id]
-  end
-
   def edit
-    @project = Project.find_by(id: params[:id])
     @users = User.where('email LIKE ?', "%#{params[:search_email]}%")
   end
 
   def update
-    @project = Project.find_by(id: params[:id])
     existing_assigned_to = @project.assigned_to || []
     updated_assigned_to = existing_assigned_to | project_params[:assigned_to]
 
@@ -43,7 +37,6 @@ class ProjectsController < ApplicationController
   end
 
   def remove_assigned_user
-    @project = Project.find(params[:id])
     user_id = params[:user_id]
     user = User.find(user_id)
 
@@ -100,6 +93,10 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def set_project
+    @project = Project.find_by(id: params[:id])
+  end
 
   def project_params
     params.require(:project).permit(:project_name, :project_description,

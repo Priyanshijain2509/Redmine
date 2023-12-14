@@ -63,7 +63,6 @@
                 <span class="image-name"><%= file.filename %></span>
               </div>
               <br />
-              <br />
             <% end %>
             <br />
           <% end %>
@@ -265,7 +264,7 @@
   'display: none;' ) do |form| %>
   <div class='form-group'>
     <%= form.label :notes %>
-    <%= form.rich_text_area :notes, class: 'form-control', id: 'edit_issue_notes' %>
+    <%= form.rich_text_area :notes, class: 'form-control', id: 'edit_issue_notes_hidden' %>
   </div>
   <%= form.hidden_field :updated_by, value: current_user.first_name %>
   <%= form.hidden_field :project_id, value: @issue.project.id %>
@@ -273,6 +272,7 @@
   <%= form.hidden_field :edit_issue_id, id: 'edit-issue-edit-id-field' %>
   <%= form.submit 'Save' %>
 <% end %>
+
 
 <script>
   // edit of issue
@@ -292,26 +292,24 @@
   $(document).on('click', '#add-edit-issue-edit-link', function(event) {
     event.preventDefault();
     var editIssueId = $(this).data('id');
-    console.log(editIssueId);
 
     $.ajax({
-      url: '/fetch_issue_data/' + editIssueId,
-      method: 'GET',
-      data: { editIssueId: editIssueId },
-      success: function(data) {
-        console.log(data);
-        var editIssueData = data.edit_issue;
-        var htmlContent = editIssueData.notes.body;
-        $('#edit_issue_notes').val(htmlContent);
-        $('#edit-issue-edit-id-field').val(editIssueId);
-        $('#edit-issue-edit-form').toggle();
-        $('html, body').animate({
-          scrollTop: $('#edit-issue-edit-form').offset().top
-        }, 100);
-      },
-      error: function(error) {
-        console.error('Error fetching data:', error);
-      }
+        url: '/fetch_issue_data/' + editIssueId,
+        method: 'GET',
+        data: { editIssueId: editIssueId },
+        success: function(data) {
+            var editIssueData = data.edit_issue;
+            var notesValue = editIssueData.notes.body;
+            $('#edit_issue_notes_hidden').val(notesValue);
+            $('#edit-issue-edit-id-field').val(editIssueId);
+            $('#edit-issue-edit-form').toggle();
+            $('html, body').animate({
+              scrollTop: $('#edit-issue-edit-form').offset().top
+            }, 100);
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+        }
     });
   });
 
