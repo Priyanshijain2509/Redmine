@@ -1,0 +1,19 @@
+You have been assigned to an issue in <%= @project.project_name %>
+
+Dear <%= @user.first_name %>,
+
+You have been assigned to the issue in the project <%= @project.project_name %>.
+The details are as follows:
+
+- Issue Title: <%= @issue.subject %>
+- Issue Type: <%= @issue.tracker %>
+- Issue Description: <%= @issue.issue_description %>
+
+View Issue: <%= user_project_issue_url(user_id: @current_user.id,
+project_id: @project.id, id: @issue.id) %>
+
+Please review the issue and take appropriate actions. If you have any questions
+or need further clarification, feel free to reach out to us.
+
+Best regards,
+<%= @current_user.first_name %>

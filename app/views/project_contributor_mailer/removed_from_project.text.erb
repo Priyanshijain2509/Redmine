@@ -1,0 +1,10 @@
+You have been removed from <%= @project.project_name %>
+
+Dear <%= @removed_user.first_name %>,
+
+We regret to inform you that you have been removed as a contributor from
+<%= @project.project_name %>. If you have any questions or concerns, please feel
+free to reach out to us.
+
+Best regards,
+<%= @current_user.first_name %>

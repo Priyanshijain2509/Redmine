@@ -10,8 +10,13 @@ class User < ApplicationRecord
   serialize :assigned_projects, Array
 
   # validations
-  validates :first_name, presence: true, length: { minimum: 3, maximum: 30 }
-  validates :last_name, presence: true, length: { minimum: 3, maximum: 20 }
+  alphabet_format = /\A[a-zA-Z]+\z/
+
+  validates :first_name, presence: true, length: { minimum: 3, maximum: 30 },
+    format: { with: alphabet_format, message: 'only allows letters' }
+  validates :last_name, presence: true, length: { minimum: 3, maximum: 20 },
+    format: { with: alphabet_format, message: 'only allows letters' }
+  validates :language, presence: true, format: {
+    with: alphabet_format, message: 'only allows letters' }
   validates :nick_name, presence: true, length: { minimum: 3, maximum: 20 }
-  validates :language, presence: true
 end

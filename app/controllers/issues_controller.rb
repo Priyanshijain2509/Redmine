@@ -21,9 +21,10 @@ class IssuesController < ApplicationController
   def create
     @project = Project.find_by(id: params[:project_id])
     @issue = Issue.new(issue_params)
-    @issue.assignee = params[:issue][:assignee].to_json
+    @issue.assignee = params[:issue][:assignee]
+    issue_assigned_to = @issue.assignee
     if @issue.save
-      flash[:notice] = 'Issue Posted!'
+      send_issue_assigned_mail(issue_assigned_to)
       redirect_to user_project_issues_path
     else
       flash[:alert] = "Issue can't be posted"
@@ -37,7 +38,15 @@ class IssuesController < ApplicationController
 
   def update
     @issue = Issue.find_by(id: params[:id])
+    @previous_assignee = @issue.assignee
+    new_assignee = []
+    removed_assignee = []
     if @issue.update(edit_issue_params)
+      @updated_assignee = params[:issue][:assignee]
+      removed_assignee = @previous_assignee - @updated_assignee
+      new_assignee = @updated_assignee - @previous_assignee
+      send_issue_assigned_mail(new_assignee) unless new_assignee.empty?
+      send_removed_from_issue(removed_assignee) unless removed_assignee.empty?
       flash[:notice] = 'Issue updated!'
       redirect_to user_project_issue_path
     else
@@ -57,7 +66,10 @@ class IssuesController < ApplicationController
   end
 
   def my_page
-    @issues = Issue.where(assignee: current_user.id)
+    all_issues = Issue.all
+    @issues = all_issues.select {
+      |issue| issue.assignee.include?(current_user.id.to_s)
+    }
   end
 
   def reported_issue
@@ -80,5 +92,20 @@ class IssuesController < ApplicationController
 
   def set_project
     @project = Project.find_by(id: params[:project_id])
+  end
+
+  def send_issue_assigned_mail(issue_assigned_to)
+    issue_assigned_to.each do |user_id|
+      next if user_id.blank?
+      user = User.find(user_id)
+      IssueMailer.issue_assigned(user, current_user, @project, @issue).deliver_now
+    end
+  end
+
+  def send_removed_from_issue(removed_assignee)
+    removed_assignee.each do |user_id|
+      user = User.find(user_id)
+      IssueMailer.removed_from_issue(user, current_user, @project, @issue).deliver_now
+    end
   end
 end

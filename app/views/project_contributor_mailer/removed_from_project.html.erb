@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h1>You have been removed from <%= @project.project_name %></h1>
+  <p>
+    Dear <%= @removed_user.first_name %>,
+  </p>
+  <p>
+    We regret to inform you that you have been removed as a contributor from
+    <%= @project.project_name %>. If you have any questions or concerns, please
+    feel free to reach out to us.
+  </p>
+  <p>
+    Best regards,<br>
+    <%= @current_user.first_name %>
+  </p>
+</body>
+</html>

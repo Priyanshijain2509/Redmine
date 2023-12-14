@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h1>Welcome to <%= @project.project_name %>!</h1>
+  <p>
+    Dear <%= @user.first_name %>,
+  </p>
+  <p>
+    We're thrilled to welcome you as a valued contributor to
+    <%= @project.project_name %>. Your commitment and expertise are integral to
+    the success of our project.
+    <br/>
+    To get started, we invite you to explore the project overview:
+    <br />
+    <strong><u><%= link_to "View Project Overview", user_project_url(user_id: @current_user.id,
+      id: @project.id) %></u></strong>
+    <br />
+    This page provides an in-depth look at our project's goals, progress, and
+    key information.
+    <br />
+    <br />
+    Your expertise and contributions are highly valued, and we look forward to
+    achieving great milestones together.
+  </p>
+  <p>
+    If you have any questions, ideas, or need assistance, please don't hesitate
+    to reach out to us through our communication channels. We're here to support
+    you every step of the way.
+  </p>
+  <p>
+    Thank you once again for joining us on this exciting journey. Together, we
+    can make a significant impact.
+  </p>
+  <p>
+    Best regards,<br>
+    <%= @current_user.first_name %>
+  </p>
+</body>
+</html>

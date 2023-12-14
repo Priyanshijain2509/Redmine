@@ -1,0 +1,28 @@
+Welcome to <%= @project.project_name %>!
+
+Dear <%= @user.first_name %>,
+
+We're thrilled to welcome you as a valued contributor to
+<%= @project.project_name %>. Your commitment and expertise are integral to the
+  success of our project.
+
+To get started, we invite you to explore the project overview:
+
+View Project Overview: <%= user_project_url(user_id: @current_user.id,
+id: @project.id) %>
+
+This page provides an in-depth look at our project's goals, progress, and
+key information.
+
+Your expertise and contributions are highly valued, and we look forward to
+achieving great milestones together.
+
+If you have any questions, ideas, or need assistance, please don't hesitate to
+reach out to us through our communication channels. We're here to support you
+every step of the way.
+
+Thank you once again for joining us on this exciting journey. Together, we can
+make a significant impact.
+
+Best regards,
+<%= @current_user.first_name %>

@@ -7,6 +7,15 @@ class ProjectsController < ApplicationController
 
   def new; end
 
+  def show
+    if user_signed_in?
+      redirect_to project_overview_path(user_id: current_user.id,
+      project_id: params[:id])
+    else
+      redirect_to root_path
+    end
+  end
+
   def create
     @project = Project.new(project_params)
     if @project.save
@@ -24,11 +33,11 @@ class ProjectsController < ApplicationController
 
   def update
     existing_assigned_to = @project.assigned_to || []
-    updated_assigned_to = existing_assigned_to | project_params[:assigned_to]
-
+    new_assigned_to = project_params[:assigned_to]
+    updated_assigned_to = existing_assigned_to | new_assigned_to
     if @project.update(assigned_to: updated_assigned_to)
       update_assigned_projects(project_params[:assigned_to], @project.id)
-      flash[:notice] = 'Contributor added!'
+      send_contributor_added_mail(new_assigned_to)
       redirect_to user_project_issues_path(project_id: params[:id])
     else
       flash[:error] = 'Error in adding contributors.'
@@ -38,12 +47,13 @@ class ProjectsController < ApplicationController
 
   def remove_assigned_user
     user_id = params[:user_id]
-    user = User.find(user_id)
+    removed_user = User.find(user_id)  # user_id contains assignee
 
     if @project.assigned_to.include?(user_id)
       @project.assigned_to.delete(user_id)
       @project.save
-      update_removed_user_projects(user, @project.id)
+      update_removed_user_projects(removed_user, @project.id)
+      send_contributor_removed_mail(removed_user)
     else
       flash[:alert] = "Can't be removed!"
     end
@@ -120,5 +130,18 @@ class ProjectsController < ApplicationController
       user.assigned_projects.delete(project_id)
       user.save
     end
+  end
+
+  def send_contributor_added_mail(new_assigned_to)
+    user_id = new_assigned_to[1]
+    ProjectContributorMailer.added_as_project_contributor(User.find(user_id),
+      current_user, @project).deliver_now
+    flash[:notice] = 'Contributor added!'
+  end
+
+  def send_contributor_removed_mail(removed_user)
+    ProjectContributorMailer.removed_from_project(removed_user, current_user,
+      @project).deliver_now
+    flash[:notice] = "#{removed_user.first_name} has been removed from the project."
   end
 end

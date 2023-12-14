@@ -1,0 +1,11 @@
+
+You have been removed from <%= @issue.subject %> issue in <%= @project.project_name %>
+
+Dear <%= @user.first_name %>,
+
+We regret to inform you that you have been removed as a participant from the issue
+"<%= @issue.subject %>" in the project <%= @project.project_name %>.
+If you have any questions or concerns, please feel free to reach out to us.
+
+Best regards,
+<%= @current_user.first_name %>

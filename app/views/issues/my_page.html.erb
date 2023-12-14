@@ -1,6 +1,7 @@
 <h3>My Page</h3>
-<h5>Issue Assigned to me</h5>
-<% if @issues.exists?  %>
+<h5>Issues Assigned to me</h5>
+
+<% unless @issues.empty? %>
   <div class='table-responsive'>
     <table class='table table-striped'>
       <thead>
@@ -15,7 +16,6 @@
       </thead>
       <tbody>
         <% @issues.each do |issue| %>
-          <% if issue.assignee.to_i == current_user.id %>
           <tr>
             <td><%= issue.id %></td>
             <td><%= issue.tracker %></td>
@@ -26,7 +26,6 @@
             <td><%= issue.category %></td>
             <td><%= issue.updated_at %></td>
           </tr>
-          <% end %>
         <% end %>
       </tbody>
     </table>
