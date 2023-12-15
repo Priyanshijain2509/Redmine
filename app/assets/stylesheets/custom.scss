@@ -248,6 +248,8 @@ h2 {
 
 .bi-plus-circle-fill{
   color: rgb(119, 196, 119);
+  font-size: 1.2rem;
+  padding: 2px;
 }
 
 .bi-plus-circle-fill:hover{
@@ -301,14 +303,15 @@ button, input, select, textarea {
   padding: 1.3rem;
   margin-bottom: 0.3rem;
   border: 1px solid #d7d7d7;
-  border-radius: 0.1rem;
+  border-radius: 0.5rem;
 }
 #image-display-container {
   height: 18rem;
 }
 #image-display-container img {
   margin-left: auto;
-  margin-right: 1rem;
+  margin-right: 2rem;
+  margin-top: 2rem;
   display: block;
 }
 
@@ -451,4 +454,30 @@ button, input, select, textarea {
   border-radius: 3px;
   background-color: #f6f6f6;
   padding: 1rem;
+}
+.remove-label{
+  text-decoration: none;
+  padding-right: 0.5rem;
+}
+/* for Modal */
+#myModal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-dialog {
+  max-width: 600px;
+}
+.modal-content {
+  background-color: #ffffff;
+  border: 2px solid #4ca3ff;
+  border-radius: 8px;
+}
+.modal-header {
+  background-color: #5baaff;
+  color: #ffffff;
+}
+.modal-body {
+  padding: 20px;
+}
+#labelButtonsContainer .btn {
+  margin: 5px;
 }

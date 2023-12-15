@@ -76,18 +76,45 @@ class IssuesController < ApplicationController
     @issues = Issue.where(user_id: current_user.id)
   end
 
+  def add_label
+    @issue = Issue.find(params[:id])
+    label = params[:issue][:issue_status]
+    color = params[:issue][:color]
+    new_label = [label, color]
+
+    if @issue.update(issue_status: @issue.issue_status + [new_label])
+      flash[:notice] = 'Label Added'
+    else
+      flash[:alert] = 'Label not added'
+    end
+    redirect_to user_project_issue_path
+  end
+
+  def remove_label
+    @issue = Issue.find(params[:id])
+    label_to_remove = params[:label]
+    current_issue_status = @issue.issue_status
+    current_issue_status.reject! { |label| label[0] == label_to_remove }
+    @issue.update(issue_status: current_issue_status)
+    redirect_to request.referrer
+  end
+
   private
 
   def issue_params
     params.require(:issue).permit(:tracker, :subject, :issue_description,
-    :issue_status, :category, :start_date, :end_date, :estimated_time,
-    :project_id, :user_id, :assignee => [], files: [])
+    :category, :start_date, :end_date, :estimated_time,
+    :project_id, :user_id, :issue_status => [], :assignee => [], files: [])
   end
 
   def edit_issue_params
     params.require(:issue).permit(:tracker, :subject, :issue_description,
-    :issue_status, :category, :end_date, :estimated_time,
+    :category, :end_date, :estimated_time,
     :project_id, :user_id, :assignee => [], files: [])
+  end
+
+  def add_label_params
+    params.require(:issue).permit(:issue_status, :color)
   end
 
   def set_project
@@ -108,4 +135,6 @@ class IssuesController < ApplicationController
       IssueMailer.removed_from_issue(user, current_user, @project, @issue).deliver_now
     end
   end
+
+
 end

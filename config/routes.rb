@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     'projects#remove_assigned_user', as: :remove_assigned_user
   get 'issues/my_page', to: 'issues#my_page', as: :issues_my_page
   get 'issues/reported_issue', to: 'issues#reported_issue'
+  delete '/users/:user_id/projects/:project_id/issues/:id/remove', to: 'issues#remove_label', as: :remove_label
+  patch '/users/:user_id/projects/:project_id/issues/:id/label', to: 'issues#add_label', as: :add_label
   get '/fetch_issue_data/:edit_issue_id', to: 'edit_issues#fetch_issue_data'
   get 'static_pages/download', to: 'static_pages#download'
   get 'static_pages/home'

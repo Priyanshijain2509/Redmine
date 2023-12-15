@@ -21,13 +21,6 @@
   <br />
 
   <div class='form-group'>
-    <%= form.label :issue_status %>
-    <%= form.select :issue_status, options_for_select(['New', 'Resolved']),
-    class: 'form-control'%>
-  </div>
-  <br />
-
-  <div class='form-group'>
     <%= form.label :category %>
     <%= form.select :category, options_for_select(['Accounts/authentication',
     'Administration', 'Attachments', 'Calendar', 'Database', 'Documentation',

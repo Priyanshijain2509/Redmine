@@ -1,5 +1,5 @@
 <div class='side-button'>
-  <h3><%= @issue.tracker %></h3>
+  <h3><%= @issue.subject %></h3>
     <%= link_to edit_user_project_issue_path(user_id: @issue.user.id,
     project_id: @issue.project.id, id: @issue.id), class: 'new-button',
     id: 'add-issue-edit-link', remote: true do %>
@@ -7,17 +7,33 @@
   <% end %>
 </div>
 
+
 <div class='issue-show'>
   <div class='row'>
     <div class='col-md-4'>
-      <h5><%= @issue.subject %></h5>
       <p class='added-by'>
         Added by <%= @issue.user.first_name %>
         <%= time_ago_in_words(@issue.created_at) %> ago. Updated
         <%= time_ago_in_words(@issue.updated_at) %> ago
       </p>
       <div class='strong-text'>
-        <p><strong>Status:</strong> <%= @issue.issue_status %></p>
+        <p><strong>Issue Type:</strong> <%= @issue.tracker %></p>
+        <p><strong>Label:</strong>
+          <% @issue.issue_status.each do |label| %>
+            <%= button_tag label[0], type: 'button', class: 'btn', style:
+            "background-color: #{label[1]}; font-size: 12px; width: 60px;
+            height: 30px; color: white;" %>
+            <%= link_to remove_label_path(label: label[0]), data: {turbo_method:
+              'delete'}, remote: true, class: 'remove-label' do %>
+              <i class='bi bi-trash3'></i>
+            <% end %>
+          <% end %>
+          <%= link_to '', id: 'openModalLink' do %>
+            <i class="bi bi-plus-circle-fill" data-bs-toggle="modal"
+            data-bs-target="#myModal"></i>
+          <% end %>
+
+        </p>
         <p><strong>Start Date:</strong> <%= @issue.start_date %></p>
         <p><strong>End Date:</strong> <%= @issue.end_date %></p>
         <p><strong>Category:</strong> <%= @issue.category %></p>
@@ -139,11 +155,51 @@
 <%= link_to new_user_project_issue_edit_issue_path(user_id: @issue.user.id,
   project_id: @issue.project.id, issue_id: @issue.id), class: 'new-button',
   id: 'add-edit-issue-new-link' do %>
-  <i class='bi bi-plus-circle-fill'></i>
-  New
-<% end %>
+    <i class='bi bi-plus-circle-fill'></i>
+    New
+  <% end %>
 <% end %>
 
+<!-- In your view -->
+<div class='modal fade' id='myModal' tabindex='-1' role='dialog'
+  aria-labelledby='myModalLabel'>
+  <div class='modal-dialog modal-dialog-centered' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title' id='myModalLabel'>Add Issue</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+      </div>
+      <div class='modal-body'>
+        <%= form_with(model: @issue, url: add_label_path, method: :patch,
+        remote: true) do |form| %>
+          <div class='form-group'>
+            <div id='labelButtonsContainer'>
+              <% @issue.issue_status.each do |label| %>
+                <%= button_tag label[0], type: 'button', class: 'btn', style:
+                  "background-color: #{label[1]}; font-size: 12px; width: 60px;
+                  height: 30px; color: white;" %>
+              <% end %>
+            </div>
+          </div>
+
+          <div class='form-group'>
+            <%= form.label :issue_status, 'Label' %>
+            <%= form.text_field :issue_status, class: 'form-control',
+              placeholder: 'Enter label', value: '' %>
+          </div>
+          <br/>
+          <div class='form-group'>
+            <%= form.label :color, 'Color' %>
+            <%= form.color_field :color, class: 'form-control' %>
+          </div>
+          <br/>
+          <%= submit_tag 'Submit', class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class='issue-edit'>
   <%= form_with(model: @issue, url: user_project_issue_path(
@@ -167,14 +223,6 @@
     <div class='form-group'>
       <%= form.label :issue_description %>
       <%= form.rich_text_area :issue_description, class: 'form-control' %>
-    </div>
-    <br />
-
-    <div class='form-group'>
-      <%= form.label :issue_status %>
-      <%= form.select :issue_status, options_for_select(['New', 'Resolved'],
-      @issue.issue_status),
-      class: 'form-control' %>
     </div>
     <br />
 
@@ -331,18 +379,22 @@
       $('#image-display-container').html(
         '<img src="' + defaultImageSource +
         '" class="img-fluid" alt="Image Preview" ' +
-        '" style="max-width: 100%; height: 100%;">');
+        '" style="max-width: 120%; height: 120%;">');
       // On click for image
       $('.image-preview').click(function() {
         var imageSource = $(this).attr('src');
         $('#image-display-container').html(
           '<img src="' + imageSource +
           '" class="img-fluid" alt="Image Preview" ' +
-          '" style="max-width: 100%; height: 100%;">');
+          '" style="max-width: 120%; height: 120%;">');
         $('html, body').animate({
           scrollTop: $('#image-display-container').offset().top
         }, 100);
       });
     }
+  });
+
+  $('#openModalLink').click(function(){
+    $('#myModal').modal('show');
   });
 </script>

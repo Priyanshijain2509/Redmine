@@ -6,13 +6,12 @@ class Issue < ApplicationRecord
   has_many_attached :files, dependent: :destroy
   has_rich_text :issue_description
 
-  validates :subject, presence: true
-  validates :start_date, presence: true
-  validates :end_date, presence: true
-  validate :date_cannot_be_in_the_past
+  validates :subject, :start_date, :end_date, presence: true
   validate :end_date_cannot_be_less_than_start_date
+  before_create :validate_date_not_in_past
 
   serialize :assignee, Array
+  serialize :issue_status, Array
 
   private
 
