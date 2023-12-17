@@ -225,6 +225,7 @@ p {
   display: flex;
   align-items: center;
   line-height: 1;
+  justify-content: flex-end;
 }
 
 .new-button {
@@ -237,7 +238,16 @@ p {
   margin-left: 10px;
   text-decoration: none;
 }
+.button-container {
+  margin-left: auto;
+}
 
+.button-container .issue-resolve-btn {
+  margin-left: 10px;
+  text-decoration: none;
+  line-height: 0.7rem;
+  display: inline-block;
+}
 .two-buttons{
   margin-left: auto;
 }
@@ -291,14 +301,9 @@ button, input, select, textarea {
   margin-left: auto;
 }
 
-.added-by{
-  font-size: 12px;
-}
-
 .trix-content{
   font-size: 14px;
 }
-
 .issue-show{
   padding: 1.3rem;
   margin-bottom: 0.3rem;

@@ -1,9 +1,17 @@
 <h3><%= @project.project_name %></h3>
 <% if @project.project_wiki %>
+  <div class='side-button'>
+    <% if @project.id === @project.project_wiki.project_id %>
+      <%= link_to edit_user_project_wiki_path(id: @wiki.id),
+        class: 'new-button' do %>
+        <i class='bi bi-pencil-square'></i>
+      <% end %>
+    <% end %>
+  </div>
   <% if @project.id === @project.project_wiki.project_id %>
-    <p><%= @wiki.wiki_text.body.to_s %></p>
-    <%= link_to 'Edit', edit_user_project_wiki_path(id: @wiki.id),
-    class: 'btn btn-primary' %>
+    <div>
+      <%= @wiki.wiki_text.body.to_s %>
+    </div>
   <% end %>
 <% else %>
   <%= form_with(model: Wiki.new , url: user_project_wikis_path(

@@ -99,6 +99,17 @@ class IssuesController < ApplicationController
     redirect_to request.referrer
   end
 
+  def resolved
+    @issue = Issue.find(params[:id])
+    if @issue.issue_resolved == true
+      @issue.update(issue_resolved: false)
+    else
+      @issue.update(issue_resolved: true)
+    end
+    redirect_to user_project_issue_path(user_id: params[:user_id],
+      project_id: params[:project_id], id: @issue)
+  end
+
   private
 
   def issue_params

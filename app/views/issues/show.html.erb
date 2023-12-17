@@ -1,21 +1,43 @@
+<div class="position-fixed top-0 start-50 translate-middle-x" style=
+"z-index: 1050; transform: translateX(-50%);">
+  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+  data-delay="5000">
+    <div class="toast-header">
+      Added by <%= @issue.user.first_name %> <%= time_ago_in_words(
+        @issue.created_at) %> ago.
+      Updated <%= time_ago_in_words(@issue.updated_at) %> ago.
+      <button type="button" class="btn-close" data-bs-dismiss="toast"
+      aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
 <div class='side-button'>
   <h3><%= @issue.subject %></h3>
-    <%= link_to edit_user_project_issue_path(user_id: @issue.user.id,
-    project_id: @issue.project.id, id: @issue.id), class: 'new-button',
-    id: 'add-issue-edit-link', remote: true do %>
-    <i class='bi bi-pencil-square'></i>
-  <% end %>
+  <div class='button-container'>
+    <span>
+      <% if @issue.user_id == current_user.id %>
+        <% if @issue.issue_resolved == true %>
+          <%= button_to 'Mark as Unresolved', issue_resolved_path(@issue),
+          method: :patch, class: 'issue-resolve-btn btn btn-primary'  %>
+        <% else %>
+          <%= button_to 'Mark as Resolved', issue_resolved_path(@issue),
+           method: :patch, class: 'issue-resolve-btn btn btn-success' %>
+        <% end %>
+      <% end %>
+      <%= link_to edit_user_project_issue_path(user_id: @issue.user.id,
+       project_id: @issue.project.id, id: @issue.id), class: 'issue-resolve-btn',
+        id: 'add-issue-edit-link', remote: true do %>
+        <i class='bi bi-pencil-square'></i>
+      <% end %>
+    </span>
+  </div>
 </div>
 
 
 <div class='issue-show'>
   <div class='row'>
     <div class='col-md-4'>
-      <p class='added-by'>
-        Added by <%= @issue.user.first_name %>
-        <%= time_ago_in_words(@issue.created_at) %> ago. Updated
-        <%= time_ago_in_words(@issue.updated_at) %> ago
-      </p>
       <div class='strong-text'>
         <p><strong>Issue Type:</strong> <%= @issue.tracker %></p>
         <p><strong>Label:</strong>
@@ -396,5 +418,10 @@
 
   $('#openModalLink').click(function(){
     $('#myModal').modal('show');
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var toast = new bootstrap.Toast(document.querySelector('.toast'));
+    toast.show();
   });
 </script>
