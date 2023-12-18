@@ -23,6 +23,8 @@ Rails.application.routes.draw do
 
   get '/fetch_issue_data/:edit_issue_id', to: 'edit_issues#fetch_issue_data'
 
+  post 'notifications/mark_as_read', to: 'notifications#mark_as_read'
+  
   get 'static_pages/download', to: 'static_pages#download'
   get 'static_pages/home'
   get 'static_pages/help'

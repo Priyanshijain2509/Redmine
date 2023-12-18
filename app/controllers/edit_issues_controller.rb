@@ -20,7 +20,9 @@ class EditIssuesController < ApplicationController
 
   def update
     @edit_issue = @issue.edit_issues.find_by(id: params[:edit_issue][:edit_issue_id])
+    puts "Changes before update: #{@edit_issue.changes}"
     if @edit_issue.update(edit_issue_params)
+      puts "Changes after update: #{@edit_issue.saved_changes}"
       flash[:notice] = 'Successfully updated!'
       redirect_to user_project_issue_path(id: params[:issue_id])
     else
@@ -56,5 +58,20 @@ class EditIssuesController < ApplicationController
 
   def edit_issue_params
     params.require(:edit_issue).permit(:notes, :updated_by, :issue_id, :project_id)
+  end
+
+  def notification_data(changes)
+    changes.each do |attribute, values|
+      next if attribute == 'updated_at'
+      old_value, new_value = values
+      notification_data = {
+        attr_change: attribute,
+        new_data: new_value,
+        read: false,
+        issue_id: @issue.id,
+        user_id: current_user.id
+      }
+      Notification.create(notification_data)
+    end
   end
 end

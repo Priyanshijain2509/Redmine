@@ -124,40 +124,46 @@
             </li>
           <% end %>
         <% end %>
-        <li class='nav-item'>
-          <%= link_to '#', class: 'rotate', id: 'notificationLink' do %>
+        <li class='nav-item' style='margin-right: 10px;'>
+          <%= link_to '', class: 'rotate', id: 'notificationLink' do %>
             <i class='bi bi-bell rotate-icon'></i>
           <% end %>
         </li>
         <div class='modal fade' id='notificationModal' tabindex='-1' role='dialog'
           aria-labelledby='exampleModalLabel' aria-hidden='true'>
-          <div class='modal-dialog' role='document'>
+          <div class='modal-dialog modal-sm' role='document'>
             <div class='modal-content'>
               <div class='modal-header'>
-                <h5 class='modal-title' id='exampleModalLabel'>Notification</h5>
+                <h5 class='modal-title' id='exampleModalLabel' style='font-size: 16px;'>
+                Notification</h5>
+                <button id="toggleButton">Toggle Read/Unread</button>
+
                 <button type='button' class='btn-close' data-bs-dismiss='modal'
                   aria-label='Close'></button>
               </div>
-
+              <% notification_ids = [] %>
               <div class='modal-body'>
                 <% assigned_issue_ids = Issue.where("
                 assignee LIKE ?", "%#{current_user.id}%").pluck(:id) %>
                 <% notifications = Notification.where(issue_id: assigned_issue_ids) %>
                 <% notifications.each do |notification| %>
+                  <% notification_ids.push(notification.id) %>
                   <% if notification.attr_change == 'assignee' %>
-                    <%= link_to(user_project_issue_path(project_id:
-                    notification.issue.project.id, id: notification.issue.id),
-                    class: 'notification-link') do %>
-                      <%= notification.user.first_name %>
+                  <%= link_to(user_project_issue_path(project_id:
+                  notification.issue.project.id, id: notification.issue.id),
+                      class: 'notification-link') do %>
+                    <%= notification.user.first_name %>
                     <br />Added
-                      <% parsed_new_data = JSON.parse(notification.new_data) rescue [] %>
-                      <% parsed_new_data.each do |id| %>
-                        <% next if id.blank? %>
-                        <%= User.find_by(id: id).first_name %>
+                    <% parsed_new_data = JSON.parse(notification.new_data) rescue [] %>
+                    <% user_names = parsed_new_data.map { |id| User.find_by(
+                      id: id)&.first_name }.compact %>
+                      <% unless user_names.empty? %>
+                        <%= user_names.join(', ') == current_user.first_name ?
+                        'You' : user_names.join(', ') %>
                       <% end %>
-                    to issue [<%= notification.issue.subject %>]
+                      to issue [<%= notification.issue.subject %>]
+                      <hr />
                     <% end %>
-                    <hr />
                   <% else %>
                     <%= link_to(user_project_issue_path(project_id:
                     notification.issue.project.id, id: notification.issue.id),
@@ -187,6 +193,21 @@
     $('#notificationLink').on('click', function(e) {
       e.preventDefault();
       $('#notificationModal').modal('show');
+    });
+
+    $('#notificationModal').on('hidden.bs.modal', function() {
+      var notificationIds = <%= raw notification_ids.to_json %>;
+
+      if (notificationIds.length > 0) {
+        $.ajax({
+          url: '/notifications/mark_as_read',
+          method: 'POST',
+          data: { notification_ids: notificationIds },
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          },
+        });
+      }
     });
   });
 </script>

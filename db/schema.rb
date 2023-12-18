@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_060045) do
     t.string "tracker", null: false
     t.string "subject", null: false
     t.string "issue_description"
-    t.string "issue_status"
+    t.string "issue_status", null: false
     t.string "category"
     t.datetime "start_date"
     t.datetime "end_date"

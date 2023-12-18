@@ -155,15 +155,16 @@ class IssuesController < ApplicationController
   def notification_data(changes)
     changes.each do |attribute, values|
       next if attribute == 'updated_at'
+
       old_value, new_value = values
       notification_data = {
-          attr_change: attribute,
-          new_data: new_value,
-          read: false,
-          issue_id: @issue.id,
-          user_id: current_user.id,
-        }
-        Notification.create(notification_data)
-      end
+        attr_change: attribute,
+        new_data: new_value,
+        read: false,
+        issue_id: @issue.id,
+        user_id: current_user.id
+      }
+      Notification.create(notification_data)
+    end
   end
 end
