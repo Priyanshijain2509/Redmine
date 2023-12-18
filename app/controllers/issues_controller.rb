@@ -41,12 +41,17 @@ class IssuesController < ApplicationController
     @previous_assignee = @issue.assignee
     new_assignee = []
     removed_assignee = []
+
     if @issue.update(edit_issue_params)
+      changes = @issue.saved_changes
+      notification_data(changes)
       @updated_assignee = params[:issue][:assignee]
       removed_assignee = @previous_assignee - @updated_assignee
       new_assignee = @updated_assignee - @previous_assignee
+
       send_issue_assigned_mail(new_assignee) unless new_assignee.empty?
       send_removed_from_issue(removed_assignee) unless removed_assignee.empty?
+
       flash[:notice] = 'Issue updated!'
       redirect_to user_project_issue_path
     else
@@ -121,7 +126,7 @@ class IssuesController < ApplicationController
   def edit_issue_params
     params.require(:issue).permit(:tracker, :subject, :issue_description,
     :category, :end_date, :estimated_time,
-    :project_id, :user_id, :assignee => [], files: [])
+    :project_id, :assignee => [], files: [])
   end
 
   def add_label_params
@@ -147,5 +152,18 @@ class IssuesController < ApplicationController
     end
   end
 
-
+  def notification_data(changes)
+    changes.each do |attribute, values|
+      next if attribute == 'updated_at'
+      old_value, new_value = values
+      notification_data = {
+          attr_change: attribute,
+          new_data: new_value,
+          read: false,
+          issue_id: @issue.id,
+          user_id: current_user.id,
+        }
+        Notification.create(notification_data)
+      end
+  end
 end

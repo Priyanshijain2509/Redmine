@@ -486,3 +486,20 @@ button, input, select, textarea {
 #labelButtonsContainer .btn {
   margin: 5px;
 }
+.rotate-icon {
+  transform: rotate(45deg);
+  display: inline-block;
+}
+#notificationModal .modal-dialog {
+  margin-left: auto;
+  margin-right: 0.9rem;
+  margin-top: 7.5rem;
+}
+
+#notificationModal .modal-content {
+  background-color: black;
+  color: white;
+}
+.notification-link{
+  text-decoration: none;
+}

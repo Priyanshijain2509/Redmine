@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_15_122421) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_18_060045) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_122421) do
     t.string "tracker", null: false
     t.string "subject", null: false
     t.string "issue_description"
-    t.string "issue_status", null: false
+    t.string "issue_status"
     t.string "category"
     t.datetime "start_date"
     t.datetime "end_date"
@@ -95,6 +95,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_122421) do
     t.integer "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "attr_change", null: false
+    t.string "new_data", null: false
+    t.boolean "read"
+    t.integer "issue_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issue_id"], name: "index_notifications_on_issue_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -159,6 +171,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_122421) do
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
   add_foreign_key "news", "projects"
+  add_foreign_key "notifications", "issues"
+  add_foreign_key "notifications", "users"
   add_foreign_key "projects", "users"
   add_foreign_key "wikis", "projects"
   add_foreign_key "wikis", "users", column: "created_by"

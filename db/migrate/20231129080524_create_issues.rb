@@ -4,7 +4,7 @@ class CreateIssues < ActiveRecord::Migration[7.0]
       t.string :tracker, null: false
       t.string :subject, null: false
       t.string :issue_description
-      t.string :issue_status, null: false
+      t.string :issue_status
       t.string :category
       t.datetime :start_date
       t.datetime :end_date

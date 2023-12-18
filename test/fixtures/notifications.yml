@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  changes: MyString
+  show: false
+  read: false
+  issue: one
+  user: one
+
+two:
+  changes: MyString
+  show: false
+  read: false
+  issue: two
+  user: two

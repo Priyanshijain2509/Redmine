@@ -14,7 +14,7 @@
     <%= link_to 'Reported issues', issues_reported_issue_path %>(<%= @reported_issues_count %>)
     <div class = 'nodata'>
       <% if @reported_issues_count == 0 %>
-        <%= No data to display %>
+        <%= 'No data to display' %>
       <% else %>
         <%= link_to 'Reported Issues', issues_reported_issue_path %>
       <% end %>

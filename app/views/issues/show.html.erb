@@ -1,13 +1,13 @@
-<div class="position-fixed top-0 start-50 translate-middle-x" style=
-"z-index: 1050; transform: translateX(-50%);">
-  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-  data-delay="5000">
-    <div class="toast-header">
+<div class='position-fixed top-0 start-50 translate-middle-x' style=
+  'z-index: 1050; transform: translateX(-50%);'>
+  <div class='toast' role='alert' aria-live='assertive' aria-atomic='true'
+  data-delay='5000'>
+    <div class='toast-header'>
       Added by <%= @issue.user.first_name %> <%= time_ago_in_words(
         @issue.created_at) %> ago.
       Updated <%= time_ago_in_words(@issue.updated_at) %> ago.
-      <button type="button" class="btn-close" data-bs-dismiss="toast"
-      aria-label="Close"></button>
+      <button type='button' class='btn-close' data-bs-dismiss='toast'
+      aria-label='Close'></button>
     </div>
   </div>
 </div>
@@ -22,11 +22,11 @@
           method: :patch, class: 'issue-resolve-btn btn btn-primary'  %>
         <% else %>
           <%= button_to 'Mark as Resolved', issue_resolved_path(@issue),
-           method: :patch, class: 'issue-resolve-btn btn btn-success' %>
+            method: :patch, class: 'issue-resolve-btn btn btn-success' %>
         <% end %>
       <% end %>
       <%= link_to edit_user_project_issue_path(user_id: @issue.user.id,
-       project_id: @issue.project.id, id: @issue.id), class: 'issue-resolve-btn',
+        project_id: @issue.project.id, id: @issue.id), class: 'issue-resolve-btn',
         id: 'add-issue-edit-link', remote: true do %>
         <i class='bi bi-pencil-square'></i>
       <% end %>
@@ -51,8 +51,8 @@
             <% end %>
           <% end %>
           <%= link_to '', id: 'openModalLink' do %>
-            <i class="bi bi-plus-circle-fill" data-bs-toggle="modal"
-            data-bs-target="#myModal"></i>
+            <i class='bi bi-plus-circle-fill' data-bs-toggle='modal'
+            data-bs-target='#myModal'></i>
           <% end %>
 
         </p>
@@ -96,9 +96,9 @@
           <% unless image_files.empty? %>
             <h6>Images</h6>
             <% image_files.each do |file| %>
-              <div class="image-container">
+              <div class='image-container'>
                 <%= image_tag(file, class: 'image-preview', height: 100, width: 200) %>
-                <span class="image-name"><%= file.filename %></span>
+                <span class='image-name'><%= file.filename %></span>
               </div>
               <br />
             <% end %>
@@ -182,15 +182,14 @@
   <% end %>
 <% end %>
 
-<!-- In your view -->
 <div class='modal fade' id='myModal' tabindex='-1' role='dialog'
   aria-labelledby='myModalLabel'>
   <div class='modal-dialog modal-dialog-centered' role='document'>
     <div class='modal-content'>
       <div class='modal-header'>
         <h5 class='modal-title' id='myModalLabel'>Add Issue</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
-        aria-label="Close"></button>
+        <button type='button' class='btn-close' data-bs-dismiss='modal'
+        aria-label='Close'></button>
       </div>
       <div class='modal-body'>
         <%= form_with(model: @issue, url: add_label_path, method: :patch,
@@ -416,10 +415,12 @@
     }
   });
 
+// modal open
   $('#openModalLink').click(function(){
     $('#myModal').modal('show');
   });
 
+// notification
   document.addEventListener('DOMContentLoaded', function () {
     var toast = new bootstrap.Toast(document.querySelector('.toast'));
     toast.show();
