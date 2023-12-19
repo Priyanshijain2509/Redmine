@@ -13,9 +13,8 @@
 </div>
 
 <div class='side-button'>
-  <h3><%= @issue.subject %></h3>
+  <h3 class='issue-heading'><%= @issue.subject %></h3>
   <div class='button-container'>
-    <span>
       <% if @issue.user_id == current_user.id %>
         <% if @issue.issue_resolved == true %>
           <%= button_to 'Mark as Unresolved', issue_resolved_path(@issue),
@@ -30,7 +29,6 @@
         id: 'add-issue-edit-link', remote: true do %>
         <i class='bi bi-pencil-square'></i>
       <% end %>
-    </span>
   </div>
 </div>
 
