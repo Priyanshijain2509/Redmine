@@ -34,7 +34,6 @@
   </div>
 </div>
 
-
 <div class='issue-show'>
   <div class='row'>
     <div class='col-md-4'>
@@ -187,11 +186,11 @@
   <div class='modal-dialog modal-dialog-centered' role='document'>
     <div class='modal-content'>
       <div class='modal-header'>
-        <h5 class='modal-title' id='myModalLabel'>Add Issue</h5>
+        <h5 class='modal-title' id='myModalLabel'>Add Label</h5>
         <button type='button' class='btn-close' data-bs-dismiss='modal'
         aria-label='Close'></button>
       </div>
-      <div class='modal-body'>
+      <div class='label-modal-body'>
         <%= form_with(model: @issue, url: add_label_path, method: :patch,
         remote: true) do |form| %>
           <div class='form-group'>
@@ -351,7 +350,10 @@
     $('#edit-issue-new-form').hide();
     $(document).on('click', '#add-issue-edit-link', function(event) {
     event.preventDefault();
+    console.log("hello from script 1");
     $('#issue-edit-form').toggle();
+    console.log("hello from script 2");
+
     $('html, body').animate({
       scrollTop: $('#issue-edit-form').offset().top
     }, 100);
@@ -363,22 +365,22 @@
     var editIssueId = $(this).data('id');
 
     $.ajax({
-        url: '/fetch_issue_data/' + editIssueId,
-        method: 'GET',
-        data: { editIssueId: editIssueId },
-        success: function(data) {
-            var editIssueData = data.edit_issue;
-            var notesValue = editIssueData.notes.body;
-            $('#edit_issue_notes_hidden').val(notesValue);
-            $('#edit-issue-edit-id-field').val(editIssueId);
-            $('#edit-issue-edit-form').toggle();
-            $('html, body').animate({
-              scrollTop: $('#edit-issue-edit-form').offset().top
-            }, 100);
-        },
-        error: function(error) {
-            console.error('Error fetching data:', error);
-        }
+      url: '/fetch_issue_data/' + editIssueId,
+      method: 'GET',
+      data: { editIssueId: editIssueId },
+      success: function(data) {
+        var editIssueData = data.edit_issue;
+        var notesValue = editIssueData.notes.body;
+        $('#edit_issue_notes_hidden').val(notesValue);
+        $('#edit-issue-edit-id-field').val(editIssueId);
+        $('#edit-issue-edit-form').toggle();
+        $('html, body').animate({
+          scrollTop: $('#edit-issue-edit-form').offset().top
+        }, 100);
+      },
+      error: function(error) {
+          console.error('Error fetching data:', error);
+      }
     });
   });
 
@@ -415,14 +417,21 @@
     }
   });
 
-// modal open
-  $('#openModalLink').click(function(){
-    $('#myModal').modal('show');
+  $(document).ready(function () {
+      function openModal() {
+        $('#myModal').modal('show');
+      }
+      function closeModal() {
+          $('#myModal').modal('hide');
+      }
+      $('#openModalLink').click(function () {
+        closeModal();
+        openModal();
+      });
+      var toast = new bootstrap.Toast(document.querySelector('.toast'));
+      $('#notificationButton').click(function () {
+          toast.show();
+      });
   });
 
-// notification
-  document.addEventListener('DOMContentLoaded', function () {
-    var toast = new bootstrap.Toast(document.querySelector('.toast'));
-    toast.show();
-  });
 </script>

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/fetch_issue_data/:edit_issue_id', to: 'edit_issues#fetch_issue_data'
 
   post 'notifications/mark_as_read', to: 'notifications#mark_as_read'
+  get 'notifications/unread_count', to: 'notifications#unread_count'
   
   get 'static_pages/download', to: 'static_pages#download'
   get 'static_pages/home'
@@ -46,6 +47,6 @@ Rails.application.routes.draw do
         resources :edit_issues
       end
     end
-    resources :notifications
   end
+  resources :notifications
 end

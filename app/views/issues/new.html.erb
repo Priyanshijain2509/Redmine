@@ -64,6 +64,7 @@
   </div>
   <br />
 
+  <%= form.hidden_field :issue_resolved, value: false %>
   <%= form.hidden_field :project_id, value: @project.id %>
   <%= form.hidden_field :user_id, value: current_user.id %>
   <%= form.submit 'Create Issue', class: 'btn btn-primary' %>

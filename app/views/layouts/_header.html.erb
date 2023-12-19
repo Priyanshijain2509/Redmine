@@ -124,19 +124,22 @@
             </li>
           <% end %>
         <% end %>
-        <li class='nav-item' style='margin-right: 10px;'>
+        <li class='bell' style='margin-right: 10px;'>
           <%= link_to '', class: 'rotate', id: 'notificationLink' do %>
             <i class='bi bi-bell rotate-icon'></i>
+            <span id="notificationCount"></span>
           <% end %>
         </li>
+
         <div class='modal fade' id='notificationModal' tabindex='-1' role='dialog'
           aria-labelledby='exampleModalLabel' aria-hidden='true'>
           <div class='modal-dialog modal-sm' role='document'>
             <div class='modal-content'>
               <div class='modal-header'>
-                <h5 class='modal-title' id='exampleModalLabel' style='font-size: 16px;'>
+                <h5 class='modal-title' id='exampleModalLabel' style='font-size: 12px;'>
                 Notification</h5>
-                <button id="toggleButton">Toggle Read/Unread</button>
+                <input type="checkbox" id="toggleButton">
+                <label>Unread</label>
 
                 <button type='button' class='btn-close' data-bs-dismiss='modal'
                   aria-label='Close'></button>
@@ -149,20 +152,27 @@
                 <% notifications.each do |notification| %>
                   <% notification_ids.push(notification.id) %>
                   <% if notification.attr_change == 'assignee' %>
-                  <%= link_to(user_project_issue_path(project_id:
-                  notification.issue.project.id, id: notification.issue.id),
-                      class: 'notification-link') do %>
-                    <%= notification.user.first_name %>
-                    <br />Added
-                    <% parsed_new_data = JSON.parse(notification.new_data) rescue [] %>
-                    <% user_names = parsed_new_data.map { |id| User.find_by(
-                      id: id)&.first_name }.compact %>
+                    <%= link_to(user_project_issue_path(project_id:
+                    notification.issue.project.id, id: notification.issue.id),
+                        class: 'notification-link') do %>
+                      <%= notification.user.first_name %>
+                      <br />Added
+                      <% parsed_new_data = JSON.parse(notification.new_data) rescue [] %>
+                      <% user_names = parsed_new_data.map { |id| User.find_by(
+                        id: id)&.first_name }.compact %>
                       <% unless user_names.empty? %>
                         <%= user_names.join(', ') == current_user.first_name ?
                         'You' : user_names.join(', ') %>
                       <% end %>
                       to issue [<%= notification.issue.subject %>]
                       <hr />
+                    <% end %>
+                  <% elsif notification.attr_change == 'body' %>
+                    <%= link_to(user_project_issue_path(project_id:
+                    notification.issue.project.id, id: notification.issue.id),
+                        class: 'notification-link') do %>
+                      <%= notification.user.first_name %>
+                      <br />Added a comment
                     <% end %>
                   <% else %>
                     <%= link_to(user_project_issue_path(project_id:
@@ -176,7 +186,6 @@
                     <hr />
                   <% end %>
                 <% end %>
-
               </div>
             </div>
           </div>
@@ -188,7 +197,56 @@
   </div>
 </nav>
 
+
 <script>
+  $(document).ready(function() {
+  var previousData = [];
+  function updateModalBodyContent(data) {
+    if (data && Array.isArray(data) && data.length > 0) {
+      var modalContent = '';
+      data.forEach(function(notification) {
+        var contentToAdd = '';
+        if (notification.attr_change === 'assignee') {
+          contentToAdd = notification.user.first_name + '<br />' +
+            ' added ' + notification.new_value + ' in ' + notification.issue.subject;
+        } else if (notification.attr_change === 'body') {
+          contentToAdd = notification.user.first_name + '<br />' + ' added comment';
+        } else {
+          contentToAdd = notification.user.first_name + '<br />' +
+            ' changed ' + notification.attr_change + ' in ' + notification.issue.subject;
+        }
+        modalContent += '<p class="notification-content">' + contentToAdd + '</p> <hr/>';
+      });
+
+      $('.modal-body').html(modalContent);
+      previousData = data;
+    } else {
+      $('.modal-body').html('<p>No notifications found.</p>');
+    }
+  }
+  function performAjaxRequest(checked) {
+    $.ajax({
+      url: '/notifications',
+      type: 'GET',
+      data: { checked: checked },
+      dataType: 'json',
+      success: function(response) {
+        var modalData = response;
+        console.log(modalData);
+        updateModalBodyContent(modalData);
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
+  }
+  $('#toggleButton').on('change', function() {
+    var isChecked = $(this).is(':checked');
+    performAjaxRequest(isChecked);
+  });
+  performAjaxRequest($('#toggleButton').is(':checked'));
+  });
+
   $(document).ready(function() {
     $('#notificationLink').on('click', function(e) {
       e.preventDefault();
@@ -210,4 +268,22 @@
       }
     });
   });
+
+  function updateNotificationCount() {
+    $.ajax({
+      url: '/notifications/unread_count',
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        var unreadCount = data.unread_count || 0;
+        $('#notificationCount').text(unreadCount);
+      },
+      error: function(error) {
+        console.error('Error fetching notification count:', error);
+      }
+    });
+  }
+
+  updateNotificationCount();
+  setInterval(updateNotificationCount, 5000);
 </script>

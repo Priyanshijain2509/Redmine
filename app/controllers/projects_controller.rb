@@ -35,6 +35,7 @@ class ProjectsController < ApplicationController
     existing_assigned_to = @project.assigned_to || []
     new_assigned_to = project_params[:assigned_to]
     updated_assigned_to = existing_assigned_to | new_assigned_to
+    @project.assigned_to.reject!(&:empty?)
     if @project.update(assigned_to: updated_assigned_to)
       update_assigned_projects(project_params[:assigned_to], @project.id)
       send_contributor_added_mail(new_assigned_to)

@@ -20,9 +20,9 @@ class EditIssuesController < ApplicationController
 
   def update
     @edit_issue = @issue.edit_issues.find_by(id: params[:edit_issue][:edit_issue_id])
-    puts "Changes before update: #{@edit_issue.changes}"
     if @edit_issue.update(edit_issue_params)
-      puts "Changes after update: #{@edit_issue.saved_changes}"
+      changes = @edit_issue.notes.saved_changes
+      notification_data(changes)
       flash[:notice] = 'Successfully updated!'
       redirect_to user_project_issue_path(id: params[:issue_id])
     else

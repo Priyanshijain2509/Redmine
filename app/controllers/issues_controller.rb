@@ -23,6 +23,7 @@ class IssuesController < ApplicationController
     @issue = Issue.new(issue_params)
     @issue.assignee = params[:issue][:assignee]
     issue_assigned_to = @issue.assignee
+    @issue.assignee.reject!(&:empty?)
     if @issue.save
       send_issue_assigned_mail(issue_assigned_to)
       redirect_to user_project_issues_path
@@ -42,6 +43,7 @@ class IssuesController < ApplicationController
     new_assignee = []
     removed_assignee = []
 
+    @issue.assignee.reject!(&:empty?)
     if @issue.update(edit_issue_params)
       changes = @issue.saved_changes
       notification_data(changes)
@@ -119,7 +121,7 @@ class IssuesController < ApplicationController
 
   def issue_params
     params.require(:issue).permit(:tracker, :subject, :issue_description,
-    :category, :start_date, :end_date, :estimated_time,
+    :category, :start_date, :end_date, :estimated_time, :issue_resolved,
     :project_id, :user_id, :issue_status => [], :assignee => [], files: [])
   end
 

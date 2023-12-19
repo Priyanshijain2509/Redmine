@@ -275,7 +275,6 @@ h2 {
 }
 
 .bi-bell{
-  margin-left: 49rem;
   font-size: 1.3rem;
 }
 
@@ -331,8 +330,8 @@ button, input, select, textarea {
 
 .notes{
   border: 1px solid #d7d7d7;
-  border-radius: 0.1rem;
-  padding: 0.3rem;
+  border-radius: 0.5rem;
+  padding: 1.2rem;
 }
 
 .login{
@@ -362,7 +361,9 @@ button, input, select, textarea {
 
 .issue-edit{
   border: 1px solid #d7d7d7;
+  border-radius: 0.5rem;
   padding: 1rem;
+  margin-top: 0.4rem;
 }
 .date{
   color: #555;
@@ -485,7 +486,7 @@ button, input, select, textarea {
   background-color: #5baaff;
   color: #ffffff;
 }
-.modal-body {
+.label-modal-body {
   padding: 20px;
 }
 #labelButtonsContainer .btn {
@@ -507,4 +508,34 @@ button, input, select, textarea {
 }
 .notification-link{
   text-decoration: none;
+}
+.notification-content{
+  color: white;
+}
+#toggleButton{
+  display: flex;
+  margin-left: auto;
+}
+li .bell{
+  margin-right: 10px;
+  float: inline-end;
+
+}
+.modal-body {
+  max-height: 21rem;
+  overflow-y: auto;
+}
+.bell {
+  position: relative;
+  display: inline-block;
+}
+#notificationCount {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: white;
+  color: red;
+  padding: 0px 4px;
+  border-radius: 315%;
+  font-size: 10px;
 }
