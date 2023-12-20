@@ -217,7 +217,6 @@
         }
         modalContent += '<p class="notification-content">' + contentToAdd + '</p> <hr/>';
       });
-
       $('.modal-body').html(modalContent);
       previousData = data;
     } else {
@@ -252,10 +251,8 @@
       e.preventDefault();
       $('#notificationModal').modal('show');
     });
-
     $('#notificationModal').on('hidden.bs.modal', function() {
       var notificationIds = <%= raw notification_ids.to_json %>;
-
       if (notificationIds.length > 0) {
         $.ajax({
           url: '/notifications/mark_as_read',
@@ -285,5 +282,5 @@
   }
 
   updateNotificationCount();
-  setInterval(updateNotificationCount, 5000);
+  setInterval(updateNotificationCount, 10000);
 </script>

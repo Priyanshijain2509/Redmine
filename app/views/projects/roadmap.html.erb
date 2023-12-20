@@ -1,6 +1,6 @@
 <% total_issues = @project.issues.count %>
-<% open_issues = @project.issues.where(issue_resolved: true).count %>
-<% closed_issues = @project.issues.where(issue_resolved: false).count %>
+<% open_issues = @project.issues.where(issue_resolved: false).count %>
+<% closed_issues = @project.issues.where(issue_resolved: true).count %>
 <% new_issues_percentage = (open_issues.to_f / total_issues) * 100 %>
 <% resolved_issues_percentage = (closed_issues.to_f / total_issues) * 100 %>
 
